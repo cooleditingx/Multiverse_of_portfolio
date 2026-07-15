@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# build output (Vercel builds from source)
+dist/
+
+# env / secrets — never commit these
+.env
+.env.*
+env
+
+# macOS junk
+.DS_Store
+
+# local tool state (Claude Code permissions, MCP config)
+.claude/
+.mcp.json
+
+# raw design sources — live locally only, not needed to build the site
+# (the site uses the baked copies in /public and the small processed assets)
+assets/Ransom_Note_Letters/
+assets/originals/
+assets/stickers/
+assets/coffee-original-backup.glb
+assets/whoosh.drp
+assets/*.jpg
+assets/freesound_community-jump_c_02-102843.mp3
+
+# logs
+*.log

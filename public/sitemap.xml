@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [PLACEHOLDER: replace example.com with the real deployed domain] -->
+<!-- Bump a page's <lastmod> (YYYY-MM-DD) whenever its content meaningfully changes. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/tech</loc>
+    <lastmod>2026-07-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/hobbies</loc>
+    <lastmod>2026-07-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/curiosity-planet</loc>
+    <lastmod>2026-07-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>

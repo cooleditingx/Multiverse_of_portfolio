@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#08070f"/>
+  <!-- portal rings -->
+  <ellipse cx="32" cy="32" rx="22" ry="9" fill="none" stroke="#8b5cf6" stroke-width="3" transform="rotate(-24 32 32)"/>
+  <ellipse cx="32" cy="32" rx="15" ry="6" fill="none" stroke="#4ce0d2" stroke-width="2" opacity="0.85" transform="rotate(-24 32 32)"/>
+  <!-- core star -->
+  <path d="M32 24 l2.4 5.6 L40 32 l-5.6 2.4 L32 40 l-2.4-5.6 L24 32 l5.6-2.4 Z" fill="#f4c86b"/>
+  <!-- scattered stars -->
+  <circle cx="14" cy="15" r="1.6" fill="#e8e6f0"/>
+  <circle cx="51" cy="12" r="1.2" fill="#4ce0d2"/>
+  <circle cx="53" cy="49" r="1.6" fill="#e8e6f0"/>
+  <circle cx="12" cy="50" r="1.2" fill="#8b5cf6"/>
+</svg>

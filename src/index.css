@@ -1,0 +1,1916 @@
+@import "tailwindcss";
+@font-face {
+  font-family: Aroma Vintage;
+  src: url(/assets/aroma_vintage/AromaVintage-Regular.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Linux Biolinum";
+  src: url(/assets/linux_biolinum/LinBiolinum_R.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Linux Biolinum";
+  src: url(/assets/linux_biolinum/LinBiolinum_RB.woff2) format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Linux Biolinum Hobby";
+  src: url(/assets/linux_biolinum/LinBiolinum_aWB.woff2) format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bebas Neue";
+  src: url(/assets/bebas_neue/BebasNeue-Regular.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bootcamp Morsecode";
+  src: url(/assets/bootcamp_morsecode/Bootcamp-Morsecode.woff2) format("woff2");
+  font-display: swap;
+}
+/* ============================================================
+   MULTIVERSE OF PORTFOLIO — global design tokens & bespoke CSS
+   ============================================================ */
+
+:root {
+  --space-bg: #08070f;
+  --space-bg-2: #0d0b1a;
+  --violet: #8b5cf6;
+  --cyan: #4ce0d2;
+  --gold: #f4c86b;
+  --ink: #e8e6f0;
+  --ink-dim: #9d99b3;
+
+  /* inverted "paper" panel (get in touch) */
+  --paper: #eceaf2;
+  --ink-dark: #16131f;
+
+  /* tech universe */
+  --crt-green: #39ff88;
+  --crt-green-dim: #1d8a4c;
+  --crt-bg: #050a06;
+
+  /* video universe */
+  --tape-bg: #241812;
+  --tape-orange: #c97a3d;
+  --tape-cream: #efe3ce;
+  --vu-red: #e5484d;
+
+  /* blog universe */
+  /* --mag-teal: #06282e;
+  --mag-teal-2: #0a3b44; */
+  --mag-gold: #d9a441;
+  --mag-paper: #f5efe2;
+  --tilt: -2.2deg;
+
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+html { scroll-behavior: smooth; }
+/* hub only (Hub toggles the class): sections snap into the viewport */
+html.snap-sections { scroll-snap-type: y mandatory; }
+
+/* rolling-letter link hover: each letter slides up, its clone rises from
+   below, staggered left-to-right (delay set inline per letter) */
+.roll-link { display: inline-block; }
+.roll-link .roll-inner { display: inline-flex; overflow: hidden; }
+.roll-ch {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.roll-ch > span { display: block; }
+.roll-ch > span:nth-child(2) { position: absolute; top: 100%; left: 0; }
+.roll-link:hover .roll-ch,
+.roll-link:focus-visible .roll-ch { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) {
+  .roll-ch { transition: none; }
+  .roll-link:hover .roll-ch,
+  .roll-link:focus-visible .roll-ch { transform: none; }
+}
+
+body { margin: 0; background: var(--space-bg); overflow-x: hidden; }
+body.no-scroll { overflow: hidden; }
+
+/* Aroma Vintage (local font in /assets); Space Grotesk as fallback */
+.font-display { font-family: "Aroma Vintage", "Space Grotesk", sans-serif; }
+.font-aroma { font-family: "Aroma Vintage", "Space Grotesk", sans-serif; }
+.font-biolinum { font-family: "Linux Biolinum", Georgia, serif; }
+.font-mono { font-family: "Space Mono", monospace; }
+.font-bebas { font-family: "Bebas Neue", "Space Grotesk", sans-serif; }
+.font-morse { font-family: "Bootcamp Morsecode", monospace; }
+.font-serif { font-family: "Playfair Display", Georgia, serif; }
+.font-hand { font-family: "Caveat", "Segoe Print", cursive; }
+
+::selection { background: var(--violet); color: #fff; }
+
+button { cursor: pointer; font: inherit; }
+
+/* ------------------------------------------------------------
+   per-universe cursors — each world hands you its own tool
+   (baked PNGs in /public/cursors; SVG cursors don't work in Safari).
+   Links/buttons are included so the UA pointer doesn't break theme;
+   drag affordances (.stkr, .ransom-ch) keep their own grab cursor. */
+/* .u-hub, .u-hub a, .u-hub button {
+  cursor: url("/cursors/blackhole.png") 16 16, auto;
+  cursor: image-set(url("/cursors/blackhole.png") 1x, url("/cursors/blackhole@2x.png") 2x) 16 16, auto;
+}
+.u-hobbies, .u-hobbies a, .u-hobbies button {
+  cursor: url("/cursors/crayon.png") 6 6, auto;
+  cursor: image-set(url("/cursors/crayon.png") 1x, url("/cursors/crayon@2x.png") 2x) 6 6, auto;
+}
+.u-tech, .u-tech a, .u-tech button {
+  cursor: url("/cursors/scifi.png") 3 3, auto;
+  cursor: image-set(url("/cursors/scifi.png") 1x, url("/cursors/scifi@2x.png") 2x) 3 3, auto;
+}
+.u-blog, .u-blog a, .u-blog button {
+  cursor: url("/cursors/inkpen.png") 6 6, auto;
+  cursor: image-set(url("/cursors/inkpen.png") 1x, url("/cursors/inkpen@2x.png") 2x) 6 6, auto;
+}
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 2px;
+} */
+
+/* keyboard focus ring, tinted to whichever universe you're in */
+:focus-visible {
+  outline: 2px solid var(--cyan); /* hub / space default */
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.u-tech :focus-visible { outline-color: var(--crt-green); }
+.u-video :focus-visible { outline-color: var(--tape-orange); }
+.u-hobbies :focus-visible { outline-color: var(--craft-red); }
+.u-blog :focus-visible { outline-color: var(--mag-gold); }
+
+/* ---------- scanline / CRT overlays (shared structural texture) ---------- */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.22) 3px,
+    transparent 4px
+  );
+  z-index: 5;
+}
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  z-index: 4;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.82; }
+  94% { opacity: 1; }
+  97% { opacity: 0.93; }
+}
+.crt-flicker { animation: flicker 4s infinite; }
+
+@keyframes cursor-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.block-cursor {
+  display: inline-block;
+  width: 0.6em; height: 1em;
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ---------- side menu: giant adcker-style links ---------- */
+.menu-mega-link {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 4.8vw, 8.5rem);
+  line-height: 1.04;
+  color: #ece9e2;
+  /* full-bleed hover bar: span the whole panel, text stays at the 2vw inset */
+  display: block;
+  position: relative;
+  width: 50vw;
+  min-width: 340px;
+  margin-left: -2vw;
+  padding-left: 2vw;
+}
+/* purplish/bluish translucent gradient bar, faded in on hover */
+.menu-mega-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.5), rgba(40, 43, 74, 0.65));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.menu-mega-link:hover::before,
+.menu-mega-link:focus-visible::before {
+  opacity: 1;
+}
+
+/* ---------- glitch title ---------- */
+.glitch-wrap { position: relative; display: inline-block; }
+.glitch-layer {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+@keyframes glitch-red {
+  0%, 100% { transform: translate(0); opacity: 0; }
+  10% { transform: translate(-3px, 1px); opacity: 0.8; }
+  20% { transform: translate(2px, -1px); opacity: 0; }
+  45% { transform: translate(0); opacity: 0; }
+  55% { transform: translate(3px, 0); opacity: 0.7; }
+  60% { transform: translate(0); opacity: 0; }
+}
+@keyframes glitch-cyan {
+  0%, 100% { transform: translate(0); opacity: 0; }
+  12% { transform: translate(3px, -1px); opacity: 0.8; }
+  22% { transform: translate(-2px, 1px); opacity: 0; }
+  48% { transform: translate(0); opacity: 0; }
+  58% { transform: translate(-3px, 0); opacity: 0.7; }
+  63% { transform: translate(0); opacity: 0; }
+}
+@keyframes glitch-slice {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translateX(0); }
+  8% { clip-path: inset(20% 0 65% 0); transform: translateX(-6px); }
+  12% { clip-path: inset(20% 0 65% 0); transform: translateX(0); }
+  13% { clip-path: inset(0 0 100% 0); }
+  52% { clip-path: inset(60% 0 25% 0); transform: translateX(7px); }
+  56% { clip-path: inset(0 0 100% 0); transform: translateX(0); }
+}
+.glitch-red { color: #ff3b6b; animation: glitch-red 3.1s infinite steps(1, end); }
+.glitch-cyan { color: var(--cyan); animation: glitch-cyan 3.1s infinite steps(1, end); }
+.glitch-slice { color: inherit; animation: glitch-slice 4.7s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-red, .glitch-cyan, .glitch-slice, .crt-flicker { animation: none; opacity: 0; }
+  .crt-flicker { opacity: 1; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- explore button ----------
+   retro terminal menu item, Fallout-style: [ EXPLORE ] in pale phosphor
+   cyan; hovering/selecting hard-cuts to an inverted solid highlight bar */
+@keyframes phosphor-breathe {
+  0%, 100% { text-shadow: 0 0 6px rgba(168, 219, 228, 0.4); }
+  50% { text-shadow: 0 0 14px rgba(168, 219, 228, 0.9), 0 0 32px rgba(168, 219, 228, 0.3); }
+}
+.btn-explore {
+  --terminal-cyan: #a8dbe4;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  background: transparent;
+  color: var(--terminal-cyan);
+  border: none;
+  padding: 0.55em 1em;
+  animation: phosphor-breathe 2.4s ease-in-out infinite;
+  transition: none; /* selection snaps like a real terminal, no fade */
+}
+.btn-explore::before { content: "[ "; }
+.btn-explore::after { content: " ]"; }
+.btn-explore:hover,
+.btn-explore:focus-visible {
+  background: var(--terminal-cyan);
+  color: #06181c;
+  animation: none;
+  text-shadow: none;
+  outline: none;
+  box-shadow: 0 0 16px rgba(168, 219, 228, 0.55), 0 0 44px rgba(168, 219, 228, 0.2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-explore { animation: none; text-shadow: 0 0 10px rgba(168, 219, 228, 0.6); }
+}
+
+/* ---------- ignition pulse / warp ---------- */
+@keyframes chroma-pulse {
+  0%, 100% { text-shadow: none; filter: brightness(1); }
+  30% { text-shadow: -4px 0 rgba(255, 59, 107, .8), 4px 0 rgba(76, 224, 210, .8); filter: brightness(1.5); }
+  60% { text-shadow: -2px 0 rgba(255, 59, 107, .5), 2px 0 rgba(76, 224, 210, .5); filter: brightness(1.15); }
+}
+.chroma-pulse { animation: chroma-pulse 1.2s ease-out 1; }
+
+.warp-out {
+  animation: warp 0.85s cubic-bezier(0.7, 0, 0.9, 0.4) forwards;
+}
+@keyframes warp {
+  0% { transform: scale(1); filter: blur(0); opacity: 1; }
+  60% { transform: scale(1.6); filter: blur(6px); opacity: 0.9; }
+  100% { transform: scale(3.2); filter: blur(30px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .warp-out { animation: reduced-warp 0.4s ease forwards; }
+  @keyframes reduced-warp { to { opacity: 0; } }
+  .chroma-pulse { animation: none; }
+}
+
+/* ---------- CRT monitor shell (boot screen + title card) ---------- */
+
+/* dark gunmetal case filling the viewport.
+   Layers, top to bottom: blue phosphor wash bleeding out of the screen
+   (strongest at the sides), tonal bands, cool top sheen,
+   soft bottom sheen, near-black multi-shade base. */
+.crt-case {
+  background:
+    radial-gradient(34% 54% at 0% 46%, rgba(84, 150, 255, 0.16), transparent 72%),
+    radial-gradient(34% 54% at 100% 46%, rgba(84, 150, 255, 0.16), transparent 72%),
+    radial-gradient(72% 28% at 50% 90%, rgba(84, 150, 255, 0.07), transparent 70%),
+    linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.055) 0%,
+      transparent 16%,
+      rgba(255, 255, 255, 0.028) 32%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.18) 68%,
+      transparent 84%,
+      rgba(0, 0, 0, 0.32) 100%
+    ),
+    radial-gradient(130% 100% at 50% 0%, rgba(214, 231, 255, 0.11), transparent 45%),
+    radial-gradient(90% 60% at 50% 105%, rgba(255, 255, 255, 0.04), transparent 55%),
+    linear-gradient(160deg, #2c2c32 0%, #212126 30%, #17171b 55%, #0f0f12 80%, #09090b 100%);
+}
+.crt-case::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 14vmin rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 1px 0 0 rgba(255, 255, 255, 0.04),
+    inset -1px 0 0 rgba(0, 0, 0, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.6);
+}
+/* metal texture: horizontally-stretched turbulence reads as brushed
+   streaks, fine grain on top; overlay blend keeps the sheen metallic */
+.crt-case::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.35' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='360' height='360' filter='url(%23b)' opacity='0.7'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* recessed screen opening; bottom strip is thicker like real monitors */
+.crt-recess {
+  position: absolute;
+  inset: 4.5vmin 4.5vmin 9vmin 4.5vmin;
+  border-radius: 7.8vmin;
+  background: #060608;
+  box-shadow:
+    inset 0 1.2vmin 2.6vmin rgba(0, 0, 0, 0.9),
+    inset 0 -0.4vmin 1.4vmin rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.14),
+    0 -1px 0 rgba(0, 0, 0, 0.65),
+    0 0 4.5vmin rgba(84, 150, 255, 0.22),
+    0 0 12vmin rgba(84, 150, 255, 0.11);
+}
+
+.crt-case-label {
+  position: absolute;
+  left: 5.4vmin;
+  bottom: 3.2vmin;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: clamp(9px, 1.7vmin, 15px);
+  letter-spacing: 0.2em;
+  color: #8d8d94;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+.crt-case-controls {
+  position: absolute;
+  right: 5.4vmin;
+  bottom: 3.1vmin;
+  display: flex;
+  align-items: center;
+  gap: 1.4vmin;
+}
+.crt-knob {
+  width: clamp(9px, 1.5vmin, 15px);
+  height: clamp(9px, 1.5vmin, 15px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4a4a50, #232327 70%);
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.crt-led {
+  width: clamp(6px, 1vmin, 10px);
+  height: clamp(6px, 1vmin, 10px);
+  border-radius: 50%;
+  background: var(--crt-green);
+  color: var(--crt-green);
+}
+
+.crt-tube {
+  background: radial-gradient(ellipse at center, #0b1220 0%, #05070e 70%, #02030a 100%);
+}
+
+/* faint RGB aperture grille, warped along with the tube content */
+.crt-grille {
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255, 70, 70, 0.05) 0px 1px,
+    rgba(70, 255, 130, 0.035) 1px 2px,
+    rgba(80, 130, 255, 0.05) 2px 3px
+  );
+  z-index: 3;
+}
+
+/* phosphor bloom + slight RGB misconvergence on the glyphs */
+.crt-phosphor {
+  text-shadow:
+    0 0 7px rgba(76, 224, 210, 0.55),
+    0 0 22px rgba(76, 224, 210, 0.18),
+    -1.5px 0 rgba(255, 59, 107, 0.28),
+    1.5px 0 rgba(76, 224, 210, 0.3);
+}
+
+/* rough barrel-silhouette clip for the un-warped glass layers */
+.crt-glass-clip {
+  position: absolute;
+  inset: 3.4% 2.2%;
+  border-radius: 20% / 26%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* slow retrace band drifting down the glass */
+.crt-rollbar-track { overflow: hidden; z-index: 6; }
+.crt-rollbar {
+  position: absolute;
+  left: 0; right: 0;
+  height: 14%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(190, 240, 255, 0.05) 45%,
+    rgba(190, 240, 255, 0.05) 55%,
+    transparent
+  );
+  animation: crt-roll 5.5s linear infinite;
+}
+@keyframes crt-roll {
+  0% { transform: translateY(-120%); }
+  100% { transform: translateY(730%); }
+}
+
+/* curved-glass glare + corner falloff (sits above the warped tube) */
+.crt-glass {
+  z-index: 7;
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 16%, rgba(190, 225, 255, 0.07), transparent 60%),
+    radial-gradient(ellipse 120% 95% at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-rollbar { animation: none; opacity: 0; }
+}
+
+.term-line { font-family: "Space Mono", monospace; }
+@keyframes text-jitter {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  33% { transform: translateX(0.4px); opacity: 0.94; }
+  66% { transform: translateX(-0.4px); opacity: 0.985; }
+}
+.term-jitter { animation: text-jitter 0.18s infinite; }
+@media (prefers-reduced-motion: reduce) { .term-jitter { animation: none; } }
+
+/* ---------- dream ladder ---------- */
+.ladder-rail {
+  background: linear-gradient(to bottom, var(--gold), rgba(244, 200, 107, 0.08));
+  width: 2px;
+}
+.ladder-rung {
+  border: 1px solid rgba(244, 200, 107, 0.35);
+  background: rgba(244, 200, 107, 0.06);
+}
+
+/* ============================================================
+   TECH UNIVERSE — CRT terminal
+   ============================================================ */
+.u-tech {
+  background: var(--crt-bg);
+  color: var(--crt-green);
+  font-family: "Space Mono", monospace;
+  min-height: 100vh;
+}
+.u-tech ::selection { background: var(--crt-green); color: #000; }
+
+.crt-bezel {
+  background: linear-gradient(145deg, #2b2b28, #171715);
+  border-radius: 22px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.08), 0 24px 60px rgba(0, 0, 0, 0.7);
+}
+.crt-screen {
+  background: radial-gradient(ellipse at center, #071108 0%, #030603 85%);
+  border-radius: 12px / 18px;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.9);
+}
+.power-led { box-shadow: 0 0 8px currentColor; }
+
+@keyframes crt-on {
+  0% { transform: scaleY(0.004) scaleX(0); filter: brightness(6); }
+  35% { transform: scaleY(0.004) scaleX(1); filter: brightness(8); }
+  60% { transform: scaleY(0.02) scaleX(1); filter: brightness(4); }
+  100% { transform: scaleY(1) scaleX(1); filter: brightness(1); }
+}
+.crt-turning-on { animation: crt-on 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) { .crt-turning-on { animation: none; } }
+
+.term-window {
+  border: 1px solid var(--crt-green-dim);
+  background: rgba(5, 16, 8, 0.75);
+  box-shadow: 0 0 24px rgba(57, 255, 136, 0.06);
+}
+.term-window:hover { box-shadow: 0 0 32px rgba(57, 255, 136, 0.16); }
+.text-glow { text-shadow: 0 0 8px rgba(57, 255, 136, 0.55); }
+
+/* ============================================================
+   VIDEO UNIVERSE — AV deck / cassettes
+   ============================================================ 
+.u-video {
+  background: var(--tape-bg);
+  color: var(--tape-cream);
+  min-height: 100vh;
+}
+.u-video ::selection { background: var(--tape-orange); color: #fff; }
+
+.deck-body {
+  background: linear-gradient(160deg, #efe6d4, #cfc2a8);
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.deck-slot {
+  background: linear-gradient(#171310, #241c15);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.9);
+}
+.cd-disc {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #3a3630 0 14%, transparent 14.5%),
+    conic-gradient(#dcd8d0, #a9c9d8, #e8c9d8, #d8e0b8, #dcd8d0);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin 7s linear infinite; }
+.spin-slower { animation: spin 12s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .spin-slow, .spin-slower { animation: none; } }
+
+.cassette {
+  background: linear-gradient(165deg, #33261c, #1d140e);
+  border: 1px solid rgba(239, 227, 206, 0.14);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cassette:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6); }
+.cassette-label {
+  background: var(--tape-cream);
+  color: #241812;
+}
+.reel {
+  border: 4px dotted rgba(239, 227, 206, 0.65);
+  border-radius: 50%;
+  background: radial-gradient(circle, #0d0a07 30%, #2c211a 31%);
+}
+*/
+/* ---------- retro control-center gate (bright 70s hi-fi wall) ---------- */
+/* .control-wall {
+  background:
+    radial-gradient(120% 90% at 50% 50%, transparent 45%, rgba(70, 20, 0, 0.45) 100%),
+    linear-gradient(160deg, #f07a38, #e05a22 55%, #c8481a);
+}
+/* components are fitted INTO the wall: recessed wells, no elevation —
+   only the front face shows 
+.panel-module {
+  position: relative;
+  background: linear-gradient(170deg, #f7e9cd, #ecd9b4);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 3px 9px rgba(90, 30, 5, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 0 rgba(255, 236, 210, 0.4);
+}
+.panel-screen {
+  background: linear-gradient(#0f110f, #1c1f1c);
+  border-radius: 6px;
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.9), inset 0 0 26px rgba(46, 230, 166, 0.07);
+}
+/* realistic machined-metal rotary knob with a bright pointer 
+.r-knob {
+  position: relative;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 38%),
+    conic-gradient(#e9e9e9, #9c9c9c 40deg, #f3f3f3 95deg, #8f8f8f 150deg, #e7e7e7 210deg, #888 280deg, #e9e9e9);
+  box-shadow:
+    0 5px 10px rgba(70, 20, 0, 0.5),
+    inset 0 2px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.35);
+}
+.r-knob::before {
+  content: "";
+  position: absolute;
+  inset: 20%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4c4c4c, #161616 72%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.r-knob::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  width: 8%;
+  height: 24%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: #e5484d;
+  box-shadow: 0 0 5px rgba(229, 72, 77, 0.9);
+}
+/* glowing 7-segment style readout 
+.seven-seg {
+  font-family: "Space Mono", monospace;
+  color: #3aff7c;
+  background: #081008;
+  text-shadow: 0 0 6px #3aff7c, 0 0 16px rgba(58, 255, 124, 0.5);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.15em;
+}
+/* 3D toggle lever on a recessed base 
+.t-base {
+  border-radius: 8px;
+  background: linear-gradient(#d9c9a5, #bfae87);
+  box-shadow: inset 0 2px 7px rgba(70, 20, 0, 0.55);
+  position: relative;
+}
+.t-lever {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 45%;
+  border-radius: 6px;
+  background: linear-gradient(#fafafa, #ababab);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5), inset 0 1px 0 #fff;
+}
+/* fader: slotted track + ridged metal cap 
+.fader-track {
+  border-radius: 3px;
+  background: linear-gradient(#231a12, #3a2c1e);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85);
+}
+.fader-cap {
+  border-radius: 3px;
+  background: repeating-linear-gradient(0deg, #ececec 0 2px, #9a9a9a 2px 4px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.fader-cap::after {
+  content: "";
+  position: absolute;
+  inset: 45% 2px;
+  background: #e5484d;
+  border-radius: 1px;
+}
+/* panel screw 
+.screw {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #dedede, #6f6f6f);
+  box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.55);
+}
+.screw::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.55);
+  transform: rotate(45deg);
+}
+/* VCR faceplate + slot + cassette 
+.vcr-body {
+  background: linear-gradient(175deg, #3b3531, #242019 60%, #181512);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -8px 14px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.vcr-slot {
+  background: linear-gradient(#020202, #171717);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 5px 12px rgba(0, 0, 0, 0.95),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.vhs-tape {
+  background: linear-gradient(170deg, #34343b, #17171b 70%);
+  border-radius: 8px;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.6);
+}
+.vhs-label {
+  background: linear-gradient(#f6e8cd, #ecd9b4);
+  box-shadow: inset 0 0 4px rgba(70, 20, 0, 0.35);
+}
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+.eq-bar { transform-origin: bottom; animation: eq-bounce 0.9s ease-in-out infinite; }
+@keyframes led-blink {
+  0%, 60%, 100% { opacity: 1; }
+  30% { opacity: 0.25; }
+}
+.led-blink { animation: led-blink 1.6s infinite; }
+@keyframes needle-sway {
+  0%, 100% { transform: rotate(-34deg); }
+  50% { transform: rotate(26deg); }
+}
+.vu-needle { transform-origin: bottom center; animation: needle-sway 2.8s ease-in-out infinite; }
+@keyframes scope-drift { to { stroke-dashoffset: -220; } }
+.scope-wave { animation: scope-drift 4s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .eq-bar, .led-blink, .vu-needle, .scope-wave { animation: none; }
+}
+
+/* film grain for video universe 
+.vhs-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  z-index: 60;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+} */
+
+/* ============================================================
+   HOBBIES UNIVERSE — cube
+   ============================================================ */
+/* craft-desk theme: everything sits on a green self-healing cutting mat;
+   content is torn paper, washi tape, label stickers, sticky notes,
+   polaroids, and graph-paper project cards */
+.u-hobbies {
+  --mat-1: #3a9569;
+  --mat-2: #2e7d58;
+  --craft-ink: #2e2a23;
+  --craft-paper: #faf5e6;
+  --craft-cream: #f2eeda;
+  --craft-yellow: #f4c945;
+  --craft-red: #c9412b;
+  --craft-blue: #2b56a3;
+  position: relative;
+  isolation: isolate;
+  color: var(--craft-ink);
+  min-height: 100vh;
+  background: var(--mat-2);
+}
+/* the mat itself lives on a fixed layer so it never scrolls with the page */
+.u-hobbies::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    /* fine mat grid */
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 10px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 10px),
+    /* bold mat grid */
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 50px),
+    /* diagonal cutting guides */
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 140px),
+    linear-gradient(155deg, var(--mat-1), var(--mat-2) 55%, #256b4a);
+}
+/* worn-mat grain over the desk */
+.u-hobbies::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+}
+
+/* washi tape strip — position/rotate per use with utilities */
+.tape {
+  position: absolute;
+  width: 88px;
+  height: 24px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 6px, rgba(255, 255, 255, 0.28) 6px 12px),
+    rgba(238, 226, 188, 0.78);
+  box-shadow: 0 2px 5px rgba(10, 40, 25, 0.25);
+  clip-path: polygon(2% 0, 98% 5%, 100% 32%, 97% 100%, 3% 95%, 0 60%);
+  pointer-events: none;
+}
+
+/* ripped-out paper plaque (title cards) */
+.torn-sheet {
+  position: relative;
+  background: var(--craft-paper);
+  color: var(--craft-ink);
+  box-shadow: 0 12px 28px rgba(8, 38, 24, 0.4);
+  clip-path: polygon(
+    0% 12%, 3% 3%, 11% 6%, 19% 0%, 30% 5%, 42% 1%, 54% 6%, 66% 0%,
+    78% 5%, 89% 1%, 97% 7%, 100% 18%, 98% 36%, 100% 58%, 97% 80%,
+    100% 92%, 92% 99%, 79% 94%, 67% 100%, 54% 95%, 41% 100%, 29% 95%,
+    17% 100%, 7% 94%, 1% 98%, 0% 78%, 2% 52%, 0% 30%
+  );
+}
+
+/* yellow label sticker (also the tab buttons) */
+.label-stx {
+  display: inline-block;
+  background: var(--craft-yellow);
+  color: var(--craft-red);
+  border: 2px solid var(--craft-ink);
+  border-radius: 3px;
+  padding: 1px 14px 3px;
+  font-family: "Caveat", "Segoe Print", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  box-shadow: 2px 3px 0 rgba(10, 40, 25, 0.35);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+button.label-stx:hover { transform: rotate(var(--r, 0deg)) scale(1.06); }
+.label-stx[aria-selected="true"] {
+  background: var(--craft-ink);
+  color: var(--craft-yellow);
+}
+
+/* sticky note with a lifted corner */
+.sticky-note {
+  position: relative;
+  background: var(--sn, linear-gradient(180deg, #ffec9e, #f8dd74));
+  color: #4a3c15;
+  box-shadow: 0 8px 18px rgba(8, 38, 24, 0.35);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+  transform: rotate(var(--r, 0deg));
+}
+.sticky-note::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(315deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.16) 50%);
+}
+button.sticky-note { transition: transform 0.25s; }
+button.sticky-note:hover { transform: rotate(0deg) scale(1.04); }
+
+/* polaroid print (books) */
+.polaroid {
+  position: relative;
+  background: #fdfdf6;
+  padding: 10px 10px 12px;
+  box-shadow: 0 10px 24px rgba(8, 38, 24, 0.38);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.25s;
+}
+.polaroid:hover { transform: rotate(0deg) scale(1.02); }
+
+/* "cut here" scrap (3D card making) */
+.scrap-cut {
+  position: relative;
+  background: var(--craft-paper);
+  border: 2px dashed rgba(46, 42, 35, 0.55);
+  box-shadow: 0 8px 20px rgba(8, 38, 24, 0.32);
+  transform: rotate(var(--r, 0deg));
+}
+.scrap-cut::before {
+  content: "✂";
+  position: absolute;
+  top: -15px;
+  left: 16px;
+  font-size: 20px;
+  color: var(--craft-cream);
+  transform: rotate(90deg);
+}
+
+/* grid-paper header sheet (the HOBBIES nameplate): ragged torn side edges,
+   shadow via drop-shadow so it hugs the torn outline */
+.grid-sheet {
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, rgba(43, 86, 163, 0.16) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(90deg, rgba(43, 86, 163, 0.16) 0 1px, transparent 1px 14px),
+    #f7f9ff;
+  clip-path: polygon(
+    1.2% 0%, 99% 1.5%,
+    100% 10%, 98.4% 24%, 100% 40%, 98.6% 57%, 100% 72%, 98.3% 88%, 99.5% 100%,
+    2% 98.5%,
+    0% 90%, 1.6% 74%, 0.2% 58%, 1.7% 42%, 0% 26%, 1.5% 12%
+  );
+  filter: drop-shadow(0 10px 14px rgba(8, 38, 24, 0.45));
+  transform: rotate(var(--r, 0deg));
+}
+
+/* instax-mini print: small square photo window, caption space below */
+.instax {
+  background: #fdfdf6;
+  border-radius: 5px;
+  padding: 12px 10px 14px;
+  min-height: 250px;
+  box-shadow: 0 10px 24px rgba(8, 38, 24, 0.38);
+  color: var(--craft-ink);
+}
+.instax-photo {
+  aspect-ratio: 1;
+  width: 72%;
+  margin: 0 auto;
+  border: 1px solid rgba(46, 42, 35, 0.18);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* ---- the hobby box (chapter 02): top-down open cardboard box ---- */
+/* the box itself is an inline SVG (BoxArt); items below sit on its floor */
+.hobby-box {
+  filter: drop-shadow(0 18px 30px rgba(8, 38, 24, 0.45));
+}
+/* manila string envelope */
+.box-env {
+  background: linear-gradient(165deg, #e09a44, #cd8331);
+  border-radius: 6px;
+  box-shadow: 0 10px 18px rgba(58, 34, 8, 0.38);
+}
+.box-env::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 24%;
+  background: linear-gradient(180deg, #d18a35, #c07a2b);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 6px 6px 0 0;
+}
+.box-env::after {
+  content: "";
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #8a5a20;
+  box-shadow: 0 0 0 3px rgba(90, 55, 15, 0.35);
+}
+/* torn lined note */
+.box-note {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 13px, rgba(43, 86, 163, 0.25) 13px 14px),
+    #fbfaf1;
+  box-shadow: 0 8px 16px rgba(58, 34, 8, 0.35);
+  clip-path: polygon(0 5%, 5% 0, 98% 2%, 100% 96%, 96% 100%, 2% 98%);
+}
+/* red envelope + tucked letter */
+.box-env2 {
+  background: linear-gradient(165deg, #a63028, #8c221c);
+  border-radius: 4px;
+  box-shadow: 0 10px 18px rgba(58, 34, 8, 0.4);
+}
+.box-env2::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 55%;
+  background: linear-gradient(180deg, #b8423a, #93251e);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.box-letter {
+  background: #f6efdc;
+  box-shadow: 0 4px 10px rgba(58, 34, 8, 0.3);
+}
+.box-env2-front {
+  position: absolute;
+  inset: 42% 0 0 0;
+  background: linear-gradient(180deg, #a02c24, #8c221c);
+  border-radius: 0 0 4px 4px;
+}
+.box-env2-front::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #8c2a22, #6e150f);
+}
+/* blue folder with a tab */
+.box-folder {
+  background: linear-gradient(160deg, #b7d2ec, #9fc0e2);
+  border-radius: 6px;
+  box-shadow: 0 12px 22px rgba(58, 34, 8, 0.42);
+}
+.box-folder::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: -10px;
+  width: 26%;
+  height: 12px;
+  background: #a6c6e6;
+  border-radius: 0 0 6px 6px;
+}
+/* cassette tape: dark shell, cream label band with two punched reels */
+.box-cassette {
+  background: linear-gradient(180deg, #2a272e, #17151b);
+  border-radius: 6px;
+  box-shadow: 0 8px 14px rgba(40, 22, 4, 0.45);
+}
+.box-cassette::before {
+  content: "";
+  position: absolute;
+  inset: 14% 7% 24% 7%;
+  border-radius: 4px;
+  background:
+    radial-gradient(circle at 26% 66%, #26232b 0 13%, #57525e 13% 18%, transparent 18%),
+    radial-gradient(circle at 74% 66%, #26232b 0 13%, #57525e 13% 18%, transparent 18%),
+    #e8e2cf;
+}
+/* 3.5" floppy: shutter up top, write label at the bottom */
+.box-floppy {
+  background: linear-gradient(165deg, #2f4d9e, #24397a);
+  border-radius: 5px;
+  box-shadow: 0 8px 14px rgba(40, 22, 4, 0.45);
+}
+.box-floppy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28%;
+  width: 44%;
+  height: 30%;
+  background: linear-gradient(180deg, #c9cdd4, #9aa0ab);
+  border-radius: 0 0 4px 4px;
+}
+.box-floppy::after {
+  content: "";
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 8%;
+  height: 44%;
+  background: #f2eeda;
+  border-radius: 2px;
+}
+/* polaroid print */
+.box-photo {
+  background: #fdfdf6;
+  box-shadow: 0 8px 16px rgba(40, 22, 4, 0.4);
+}
+.box-photo::before {
+  content: "";
+  position: absolute;
+  inset: 6% 6% 30% 6%;
+  background: linear-gradient(135deg, #8fb7a2, #5d8a74);
+}
+/* crumpled green tape strip */
+.box-tape2 {
+  background:
+    repeating-linear-gradient(100deg, rgba(255, 255, 255, 0.14) 0 8px, transparent 8px 16px),
+    linear-gradient(90deg, #79b93f, #67a835);
+  clip-path: polygon(1.5% 8%, 98% 0, 100% 85%, 2.5% 100%, 0 55%);
+  box-shadow: 0 6px 12px rgba(58, 34, 8, 0.3);
+}
+
+/* ---- chapter 03: the corkboard (fun facts & aspirations) ---- */
+/* wooden frame around the cork surface */
+.corkboard-frame {
+  border-radius: 14px;
+  padding: clamp(10px, 1.6vw, 16px);
+  background:
+    repeating-linear-gradient(88deg, rgba(255, 240, 210, 0.07) 0 3px, transparent 3px 11px),
+    linear-gradient(170deg, #9c6f3d, #7c5527);
+  box-shadow:
+    0 18px 34px rgba(8, 38, 24, 0.45),
+    inset 0 2px 2px rgba(255, 235, 200, 0.35),
+    inset 0 -2px 3px rgba(40, 22, 4, 0.4);
+  transform: rotate(var(--r, 0deg));
+}
+/* cork surface: tan gradient + the same fractal grain, browned by multiply */
+.corkboard {
+  position: relative;
+  border-radius: 7px;
+  background: linear-gradient(150deg, #cfa269, #b8874d);
+  box-shadow: inset 0 0 60px rgba(70, 40, 12, 0.38);
+  overflow: hidden;
+}
+.corkboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+}
+
+/* round red pushpin: glossy head + the shadow it casts on the paper */
+.pushpin {
+  position: absolute;
+  z-index: 5;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #ff9c8b, #e5484d 46%, #9c1a20);
+  box-shadow:
+    inset -1px -2px 3px rgba(60, 5, 8, 0.5),
+    0 3px 3px rgba(40, 15, 5, 0.45),
+    2px 7px 9px rgba(40, 15, 5, 0.3);
+}
+
+/* chunky oval badge header pinned to the cork (Behance-ref style):
+   solid pill, contrast ring via box-shadow, Bebas display face */
+.board-badge {
+  display: inline-block;
+  font-family: "Bebas Neue", "Space Grotesk", sans-serif;
+  font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+  letter-spacing: 0.09em;
+  line-height: 1;
+  color: var(--bb-ink, var(--craft-red));
+  background: var(--bb-bg, var(--craft-yellow));
+  border: 3px solid var(--bb-ring, var(--craft-ink));
+  border-radius: 999px;
+  padding: 10px 30px 7px;
+  box-shadow: 0 5px 10px rgba(40, 15, 5, 0.35);
+  transform: rotate(var(--r, 0deg));
+}
+
+/* kraft-paper footer: torn top edge, everything glued to the bottom shelf */
+.craft-footer {
+  position: relative;
+  margin-top: 24px;
+  color: var(--craft-ink);
+  background: linear-gradient(175deg, #cda269 0%, #b08549 55%, #a67c42);
+  clip-path: polygon(
+    0 26px, 5% 8px, 11% 22px, 18% 6px, 26% 20px, 34% 4px, 43% 18px,
+    52% 7px, 61% 22px, 70% 6px, 79% 19px, 88% 5px, 95% 16px, 100% 8px,
+    100% 100%, 0 100%
+  );
+}
+/* kraft grain, clipped by the footer's torn outline */
+.craft-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+}
+.craft-footer .label-stx { text-decoration: none; }
+.craft-footer .label-stx:hover { transform: rotate(var(--r, 0deg)) scale(1.06); }
+
+/* ransom-note headline: each character is a cut-out paper letter
+   (small bakes of the user's assets/Ransom_Note_Letters set, in /public/ransom) */
+.ransom {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.12em;
+}
+.ransom-ch {
+  height: var(--rh, 3.4rem);
+  width: auto;
+  position: relative;
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rr, 0deg)) scale(var(--ds, 1));
+  filter: drop-shadow(2px 3px 3px rgba(8, 38, 24, 0.35));
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ---- the cutting-mat gate ---- */
+/* full-screen printed mat: fine + bold cm grid sized to match the edge
+   ruler numbers (72px cells) */
+.mat-gate {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(0deg, rgba(233, 244, 238, 0.26) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(90deg, rgba(233, 244, 238, 0.26) 0 1px, transparent 1px 72px),
+    linear-gradient(160deg, #3a9569, #2d7454 55%, #246246);
+}
+.mat-num {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(233, 244, 238, 0.7);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* draggable mat sticker: --dx/--dy written by the drag hook; .stkr is
+   pinned to the mat, .stkr-flow stays in normal flow (the skip button) */
+.stkr,
+.stkr-flow {
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r, 0deg)) scale(var(--ds, 1));
+  filter: drop-shadow(3px 6px 7px rgba(5, 28, 17, 0.5));
+  z-index: 20;
+}
+.stkr { position: absolute; }
+.stkr-flow { position: relative; }
+.stkr-drag {
+  cursor: grabbing;
+  z-index: 60;
+  --ds: 1.05;
+  filter: drop-shadow(7px 15px 15px rgba(5, 28, 17, 0.55));
+}
+
+/* scroll parallax: the page sets --sy (scrollY px) on the content wrapper,
+   each drifting element picks its own factor via --pf */
+.plx { transform: translate3d(0, calc(var(--sy, 0) * var(--pf, 0) * -1px), 0); will-change: transform; }
+
+/* lined notebook page (reading log): blue rules, red margin, punched holes */
+.lined-sheet {
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(43, 86, 163, 0.25) 27px 28px),
+    linear-gradient(90deg, transparent 0 52px, rgba(201, 65, 43, 0.45) 52px 54px, transparent 54px),
+    #fcf9ee;
+  box-shadow: 0 12px 28px rgba(8, 38, 24, 0.38);
+  transform: rotate(var(--r, 0deg));
+}
+.lined-sheet::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 28px;
+  bottom: 28px;
+  width: 12px;
+  background-image: radial-gradient(circle 5px at 6px 6px, #256a49 0 4.5px, transparent 5px);
+  background-size: 12px 88px;
+  background-repeat: repeat-y;
+}
+
+/* pop-up "thank you" greeting card: click/tap swings the cover open on its
+   top hinge, revealing a layered 3D papercraft pop-up standing up out of
+   the crease, confetti fanning out around it */
+.popcard {
+  perspective: 1800px;
+  --pc-navy: #29335c;
+  --pc-navy-deep: #171c34;
+  --pc-teal: #3fa89d;
+  --pc-coral: #e8834e;
+  --pc-pink: #ec9dc2;
+}
+.popcard-base {
+  position: relative;
+  background: linear-gradient(175deg, #eef2f2, #dbe2e2 70%);
+  border: 2px solid rgba(46, 42, 35, 0.2);
+  box-shadow: 0 16px 34px rgba(8, 38, 24, 0.45);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+/* confetti scattered flat on the base card, always visible */
+.popcard-scatter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.popcard-scatter > * { position: absolute; opacity: 0.9; }
+
+/* the pop-up stage: perspective-held so the 3D text can stand upright */
+.popcard-stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.popcard-3d {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  transform-style: preserve-3d;
+  transform: rotateX(72deg) translateY(15%) scale(0.5);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22, 1.6, 0.4, 1) 0.32s, opacity 0.35s 0.32s;
+}
+.popcard.is-open .popcard-3d { transform: rotateX(20deg) translateY(-2%) scale(1); opacity: 1; }
+
+/* each "THANK" / "YOU" row: chunky Bebas letters with a stepped
+   text-shadow stack faking extruded paper thickness */
+.ty-line {
+  font-family: "Bebas Neue", "Space Grotesk", sans-serif;
+  font-size: clamp(1.9rem, 7.4vw, 3.4rem);
+  line-height: 0.86;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: #f4f6f2;
+  -webkit-text-stroke: 1.5px var(--pc-navy-deep);
+  text-shadow:
+    0 1px 0 var(--pc-navy), 0 2px 0 var(--pc-navy), 0 3px 0 var(--pc-navy),
+    0 4px 0 #232a4d, 0 5px 0 #232a4d, 0 6px 0 #232a4d,
+    0 7px 0 var(--pc-navy-deep), 0 8px 0 var(--pc-navy-deep),
+    0 12px 16px rgba(5, 15, 15, 0.45);
+}
+
+/* confetti pieces start bunched at the center crease, fan outward with a
+   stagger once open */
+.ty-confetti {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.25) rotate(var(--cr, 0deg));
+  transition: transform 0.55s cubic-bezier(0.25, 1.6, 0.4, 1) var(--cd, 0.4s), opacity 0.3s var(--cd, 0.4s);
+}
+.popcard.is-open .ty-confetti {
+  opacity: 1;
+  transform: translate(calc(-50% + var(--cx, 0px)), calc(-50% + var(--cy, 0px))) scale(1) rotate(var(--cr, 0deg));
+}
+.ty-tri {
+  width: 0; height: 0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 22px solid var(--tc, var(--pc-coral));
+  filter: drop-shadow(0 3px 3px rgba(5, 15, 15, 0.3));
+}
+.ty-dot {
+  border-radius: 999px;
+  background: var(--tc, var(--pc-pink));
+  box-shadow: 0 3px 3px rgba(5, 15, 15, 0.3);
+}
+
+/* front cover: swings up and back on its top hinge, like a laptop lid */
+.popcard-flap {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.35, 1.1, 0.4, 1);
+  z-index: 2;
+}
+.popcard-flap-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.08), transparent 45%),
+    linear-gradient(155deg, var(--pc-navy) 0%, var(--pc-navy-deep) 100%);
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  gap: 0.6em;
+}
+.ty-cover {
+  font-family: "Bebas Neue", "Space Grotesk", sans-serif;
+  font-size: clamp(1.8rem, 6.6vw, 3rem);
+  letter-spacing: 0.08em;
+  color: var(--craft-yellow);
+  text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.35);
+}
+.popcard-hint { transition: opacity 0.3s; color: #f2eeda; }
+.popcard.is-open .popcard-flap { transform: rotateX(163deg); }
+.popcard.is-open .popcard-hint { opacity: 0; }
+button.popcard:hover:not(.is-open) .popcard-flap { transform: rotateX(8deg); }
+
+/* "cut along the dotted line" divider */
+.cut-line {
+  position: relative;
+  border-top: 2px dashed rgba(242, 238, 218, 0.55);
+  margin: 72px 0;
+}
+.cut-line::before {
+  content: "✂";
+  position: absolute;
+  left: 6%;
+  top: -14px;
+  font-size: 22px;
+  color: var(--craft-cream);
+}
+
+/* rubber stamp */
+.stamp {
+  display: inline-block;
+  border: 3px double rgba(201, 65, 43, 0.85);
+  border-radius: 6px;
+  color: rgba(201, 65, 43, 0.9);
+  font-family: "Space Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  padding: 10px 20px 10px 24px;
+  transform: rotate(var(--r, -5deg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plx { transform: none; }
+  .popcard-flap, .popcard-3d, .ty-confetti, .popcard-hint { transition: none; }
+}
+
+/* ============================================================
+   BLOG UNIVERSE — curiosity planet
+   ============================================================ */
+.u-blog {
+  position: relative;
+  font-family: "Linux Biolinum Hobby";
+  /* keeps the -z-10 PaperTexture backdrop inside this page's stacking
+     context, above this fallback gradient but below all content */
+  isolation: isolate;
+  /* background: radial-gradient(ellipse at 50% -20%, var(--mag-teal-2), var(--mag-teal) 60%, #041a1f); */
+  color: var(--tape-bg);
+  min-height: 100vh;
+}
+/* .u-blog ::selection { background: var(--mag-gold); color: #06282e; } */
+
+/* ---------- bookshelf (Artspace-style spine → cover slider, infinite marquee) ---------- */
+.bookshelf-scroll {
+  overflow: hidden;
+  width: 100%;
+  cursor: grab;
+  touch-action: pan-y; /* horizontal swipes drive the shelf, vertical still scrolls the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bookshelf-scroll:active { cursor: grabbing; }
+/* the JS marquee translates this track; copies of the shelf make the loop seamless */
+.bookshelf {
+  --book-h: clamp(340px, calc(100vh - 240px), 820px);
+  --spine-w: clamp(58px, 8.5vh, 84px);
+  --book-ease: cubic-bezier(0.25, 0.9, 0.25, 1);
+  display: flex;
+  align-items: flex-end;
+  width: max-content;
+  padding-top: 32px;
+  will-change: transform;
+}
+/* each copy carries its own trailing gap so every copy is exactly one loop period wide */
+.bookshelf-copy {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding-right: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bookshelf-scroll { overflow-x: auto; }
+}
+
+.book {
+  /* personal-curation layout: every book has its own height (--h fraction)
+     and spine width (--w multiplier), all standing on the same baseline */
+  --bh: calc(var(--book-h) * var(--h, 1));
+  position: relative;
+  flex-shrink: 0;
+  width: calc(var(--spine-w) * var(--w, 1));
+  height: var(--bh);
+  perspective: 1600px;
+  /* hand-arranged shelf: each book leans by its own --tilt, pivoting at its base */
+  transform: rotate(var(--tilt, 0deg));
+  transform-origin: 50% 100%;
+  /* reserve the span the leaning top edge sweeps (h·sin θ) on the side it
+     leans toward, so no tilt combination can overlap a neighbor at any
+     viewport height; --gap adds the per-book decorative spacing */
+  margin-left: calc(var(--gap, 0px) + var(--bh) * max(0, sin(-1 * var(--tilt, 0deg))));
+  margin-right: calc(var(--bh) * max(0, sin(var(--tilt, 0deg))));
+  transition: width 0.8s var(--book-ease), transform 0.8s var(--book-ease), filter 0.5s;
+}
+.book--open {
+  width: calc(var(--spine-w) * var(--w, 1) + var(--bh) * 0.74);
+  transform: rotate(0deg); /* stand up straight while the cover is out */
+  z-index: 2;
+}
+/* dim the shelved books while one is pulled out */
+.bookshelf--has-open .book:not(.book--open) {
+  filter: brightness(0.65) saturate(0.8);
+}
+
+/* spine face — hinged on its right edge, leans away when the book opens */
+.book-spine {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--spine-w) * var(--w, 1));
+  /* cloth binding: grayscale weave (from assets/Texturelabs_Fabric_158M.webp)
+     overlay-blended with each book's own color */
+  background:
+    /* linear-gradient(to right, rgba(0, 0, 0, 0.35), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.3)), */
+    url("/assets/fabric_gray_tile.webp") center / cover no-repeat,
+    var(--spine-bg, var(--mag-paper));
+  background-blend-mode: overlay, normal;
+  color: var(--spine-ink, #221c15);
+  writing-mode: vertical-rl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  border-radius: 3px 1px 1px 3px;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.5);
+  transform-origin: right center;
+  transition: transform 0.8s var(--book-ease);
+  cursor: pointer;
+}
+.book-spine:hover { filter: brightness(1.08); }
+.book--open .book-spine { transform: rotateY(-65deg); }
+.book-spine-title {
+  font-size: clamp(13px, 2vh, 19px);
+  letter-spacing: 0.04em;
+  max-height: calc(var(--bh) - 110px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.book-spine-mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* cover face — hinged on the spine edge, swings out from the shelf */
+.book-cover {
+  position: absolute;
+  top: 0;
+  left: calc(var(--spine-w) * var(--w, 1));
+  width: calc(var(--bh) * 0.74);
+  height: 100%;
+  /* front cover: same cloth + same color as this book's spine */
+  background:
+    url("/assets/fabric_gray_tile.webp") center / cover no-repeat,
+    var(--spine-bg, var(--mag-paper));
+  background-blend-mode: overlay, normal;
+  color: var(--spine-ink, #1c1712);
+  border-radius: 1px 3px 3px 1px;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  backface-visibility: hidden;
+  transition: transform 0.8s var(--book-ease), box-shadow 0.8s var(--book-ease);
+  cursor: pointer;
+}
+.book:not(.book--open) .book-cover { pointer-events: none; }
+.book--open .book-cover {
+  transform: rotateY(0deg);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.6);
+}
+/* shading that lifts as the cover turns to face the reader */
+.book-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.15));
+  opacity: 1;
+  transition: opacity 0.8s var(--book-ease);
+  pointer-events: none;
+  border-radius: inherit;
+}
+.book--open .book-cover::after { opacity: 0; }
+.book--open .book-cover:hover { box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7); filter: brightness(1.03); }
+
+/* one book is shelved cover-out (Personal Curation ref) — no 3D pull,
+   clicking it goes straight to the article */
+.book--face { width: calc(var(--bh) * 0.68); }
+.book-front {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/Texturelabs_Fabric_158M.webp");
+  background:
+    linear-gradient(to right, rgba(0, 0, 0, 0.28), transparent 6%, transparent 94%, rgba(0, 0, 0, 0.22)),
+    url("/assets/fabric_gray_tile.webp") center / cover no-repeat,
+    var(--spine-bg, var(--mag-paper));
+  background-blend-mode: normal, overlay, normal;
+  color: var(--spine-ink, #221c15);
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 9% 8%;
+  text-align: center;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+.book-front:hover { filter: brightness(1.08); }
+/* framed center block, like the ref cover's artwork plate */
+.book-front-frame {
+  border: 1px solid currentColor;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 12px;
+}
+
+.shelf-board {
+  height: 30px;
+  border-radius: 2px;
+  background-image: url("../assets/Texturelabs_Wood_143L.webp");
+  object-fit: scale-down;
+  border-top: 1px solid rgba(217, 164, 65, 0.4);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book,
+  .book-spine,
+  .book-cover,
+  .book-cover::after {
+    transition-duration: 0.01s;
+  }
+}
+
+.mag-article { background: var(--mag-paper); color: #221c15; }
+.drop-cap::first-letter {
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.85;
+  padding-right: 0.12em;
+  color: var(--mag-gold);
+}
+
+.planet-core {
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #2ec4b6, #0a3b44 65%, #041a1f);
+  box-shadow: 0 0 80px rgba(46, 196, 182, 0.25), inset -18px -14px 50px rgba(0, 0, 0, 0.55);
+}
+.planet-ring {
+  border-radius: 50%;
+  border: 2px solid rgba(217, 164, 65, 0.5);
+  transform: rotateX(72deg);
+}
+
+/* ---------- side menu ---------- */
+/* TARS menu button (Interstellar): four brushed-metal slabs in the iconic
+   leaning "side pose" — outer legs planted, the two center columns tilted
+   as a unit with dark panel bands. Hover snaps it upright to attention;
+   a cyan status light blinks on the upper dark panel. */
+.tars-bot {
+  display: flex;
+  gap: 2px;
+  height: 32px;
+  animation: tars-glow 3.2s ease-in-out infinite;
+}
+.tars-seg {
+  position: relative;
+  width: 4.5px;
+  border-radius: 1px;
+  background:
+    /* faint horizontal seams over a vertical metal sheen */
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0 7px,
+      rgba(0, 0, 0, 0.45) 7px 8px
+    ),
+    linear-gradient(180deg, #cdd4e2 0%, #8b94a8 20%, #454d60 52%, #6a7389 80%, #232838 100%);
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* center columns carry TARS's dark panels */
+.tars-seg:nth-child(2),
+.tars-seg:nth-child(3) {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0 16%,
+      rgba(14, 17, 26, 0.92) 16% 34%,
+      rgba(0, 0, 0, 0) 34% 66%,
+      rgba(14, 17, 26, 0.92) 66% 84%,
+      rgba(0, 0, 0, 0) 84%
+    ),
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0 7px,
+      rgba(0, 0, 0, 0.45) 7px 8px
+    ),
+    linear-gradient(180deg, #cdd4e2 0%, #8b94a8 20%, #454d60 52%, #6a7389 80%, #232838 100%);
+}
+/* the side pose: outer legs splay a touch, center leans as one unit */
+.tars-seg:nth-child(1) { transform: rotate(-3deg); }
+.tars-seg:nth-child(2) { transform: rotate(12deg) translateY(1px); }
+.tars-seg:nth-child(3) { transform: rotate(12deg) translateY(3px); }
+.tars-seg:nth-child(4) { transform: rotate(3deg); }
+/* status light — TARS's little indicator, on the upper dark panel */
+.tars-seg:nth-child(2)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 2px;
+  height: 2px;
+  margin-left: -1px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 4px var(--cyan);
+  animation: tars-blink 2.4s steps(1) infinite;
+}
+/* hover / focus: TARS straightens up to attention */
+.tars-btn:hover .tars-seg,
+.tars-btn:focus-visible .tars-seg { transform: none; }
+
+/* speech bubble — pops out beside TARS on hover to label the button.
+   The lettering reads "MENU" but its strokes are chopped into round
+   dots and short dashes, a nod to morse code without being morse. */
+.tars-bubble {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  padding: 5px 9px 4px;
+  background: rgba(19, 19, 19, 0.92);
+  border: 1px solid #282b4a;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-6px) scale(0.9);
+  transform-origin: left center;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* tail pointing back at TARS */
+.tars-bubble::before {
+  content: '';
+  position: absolute;
+  left: -4.5px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: rgba(19, 19, 19, 0.92);
+  border-left: 1px solid #282b4a;
+  border-bottom: 1px solid #282b4a;
+  transform: translateY(-50%) rotate(45deg);
+}
+.tars-bubble svg { display: block; }
+.tars-bubble-text {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* dash · dot rhythm along each glyph stroke — gaps kept short so
+     the letters stay readable */
+  stroke-dasharray: 4 1.8 0.1 1.8;
+  filter: drop-shadow(0 0 3px rgba(76, 224, 210, 0.5));
+}
+.tars-btn:hover .tars-bubble,
+.tars-btn:focus-visible .tars-bubble {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tars-bubble { transition: opacity 0.25s ease; transform: translateY(-50%); }
+}
+
+@keyframes tars-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(76, 224, 210, 0.35)); }
+  50% { filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.55)); }
+}
+@keyframes tars-blink {
+  0%, 82%, 100% { opacity: 1; }
+  86%, 94% { opacity: 0.15; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tars-bot { animation: none; filter: drop-shadow(0 0 8px rgba(76, 224, 210, 0.4)); }
+  .tars-seg, .tars-seg:nth-child(2)::after { animation: none; transition: none; }
+}
+
+/* ============================================================
+   404 — GLITCH IN THE MATRIX
+   ============================================================ */
+/* the route points at a coordinate the simulation never rendered:
+   digital rain leaks through, and reality periodically tears */
+.nf-wrap {
+  position: relative;
+  min-height: 100vh;
+  background: var(--space-bg);
+  color: var(--ink);
+  overflow: hidden;
+}
+.nf-rain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+/* occasional page shudder — hard cuts (steps), no easing, like dropped
+   frames; hue-rotate briefly recolors the rain with each jolt */
+@keyframes nf-jolt {
+  0%, 100% { transform: none; filter: none; }
+  11% { transform: translate(-7px, 2px) skewX(-1.5deg); filter: hue-rotate(25deg) saturate(1.7) contrast(1.2); }
+  11.8% { transform: translate(4px, -1px); filter: none; }
+  12.4% { transform: none; filter: none; }
+  47% { transform: translate(5px, -2px) skewX(1deg); filter: hue-rotate(-40deg) saturate(2); }
+  47.7% { transform: none; filter: none; }
+  76% { transform: translate(-3px, 1px); filter: invert(0.08) hue-rotate(12deg); }
+  76.6% { transform: none; filter: none; }
+}
+.nf-jolt { animation: nf-jolt 7s infinite steps(1, end); }
+
+/* the red-pill cascade: one violent second of misconvergence */
+@keyframes nf-jolt-hard {
+  0% { transform: translate(-14px, 4px) skewX(-4deg); filter: invert(1) hue-rotate(90deg); }
+  15% { transform: translate(10px, -6px) skewX(3deg); filter: hue-rotate(-120deg) saturate(3); }
+  30% { transform: translate(-8px, 2px); filter: invert(0.9); }
+  45% { transform: translate(12px, 0) skewX(-2deg); filter: hue-rotate(160deg) contrast(1.6); }
+  60% { transform: translate(-5px, -3px); filter: saturate(2.4); }
+  80% { transform: translate(3px, 1px); filter: none; }
+  100% { transform: none; filter: none; }
+}
+.nf-jolt-hard { animation: nf-jolt-hard 0.9s steps(1, end) 1; }
+
+/* horizontal tear bands that flash across the whole screen */
+.nf-tear {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  mix-blend-mode: screen;
+  opacity: 0;
+  background:
+    linear-gradient(rgba(255, 59, 107, 0.5), rgba(255, 59, 107, 0.5)) 0 18% / 100% 3px no-repeat,
+    linear-gradient(rgba(76, 224, 210, 0.45), rgba(76, 224, 210, 0.45)) 0 44% / 100% 2px no-repeat,
+    linear-gradient(rgba(232, 230, 240, 0.4), rgba(232, 230, 240, 0.4)) 0 71% / 100% 1px no-repeat,
+    linear-gradient(rgba(139, 92, 246, 0.4), rgba(139, 92, 246, 0.4)) 0 87% / 100% 4px no-repeat;
+  animation: nf-tear 5.3s infinite steps(1, end);
+}
+@keyframes nf-tear {
+  0%, 100% { opacity: 0; transform: none; }
+  9% { opacity: 1; transform: translateX(-2.5%); }
+  10.2% { opacity: 0; transform: none; }
+  38% { opacity: 0.8; transform: translateX(2%); }
+  39% { opacity: 0; transform: none; }
+  71% { opacity: 1; transform: translateX(-1.2%) scaleY(1.4); }
+  72.4% { opacity: 0; transform: none; }
+}
+
+/* incident-report terminal */
+.nf-term {
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: rgba(13, 11, 26, 0.78);
+  box-shadow:
+    0 0 32px rgba(139, 92, 246, 0.12),
+    inset 0 0 24px rgba(8, 7, 15, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-jolt, .nf-jolt-hard { animation: none; }
+  .nf-tear { animation: none; opacity: 0; }
+}
+
+
