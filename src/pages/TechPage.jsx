@@ -105,7 +105,7 @@ export default function TechPage() {
 
   return (
     <div className="u-tech relative scanlines">
-      <div className="crt-turning-on max-w-4xl mx-auto px-6 py-20 md:py-28">
+      <div className="crt-turning-on max-w-4xl mx-auto px-6 py-12 md:py-28">
         <p className="font-mono text-[11px] text-[var(--crt-green-dim)] tracking-widest mb-2">
           DUA-TRON 3000 · BOOT OK · UNIVERSE 01/04
         </p>
@@ -163,7 +163,7 @@ export default function TechPage() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => click()}
-                      className="font-mono text-[11px] tracking-[0.2em] border border-[var(--crt-green-dim)] rounded px-4 py-1.5 text-[var(--crt-green)] hover:bg-[var(--crt-green)] hover:text-black transition-colors"
+                      className="font-mono text-[11px] tracking-[0.2em] border border-[var(--crt-green-dim)] rounded px-4 py-2.5 text-[var(--crt-green)] hover:bg-[var(--crt-green)] hover:text-black transition-colors"
                     >
                       WEBSITE ↗
                     </a>
@@ -174,7 +174,7 @@ export default function TechPage() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => click()}
-                      className="font-mono text-[11px] tracking-[0.2em] border border-[var(--crt-green-dim)] rounded px-4 py-1.5 text-[var(--crt-green)] hover:bg-[var(--crt-green)] hover:text-black transition-colors"
+                      className="font-mono text-[11px] tracking-[0.2em] border border-[var(--crt-green-dim)] rounded px-4 py-2.5 text-[var(--crt-green)] hover:bg-[var(--crt-green)] hover:text-black transition-colors"
                     >
                       CODE ↗
                     </a>

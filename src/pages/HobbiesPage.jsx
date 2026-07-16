@@ -462,17 +462,17 @@ function HobbyBox() {
 
       {/* cassette tape — video editing */}
       <div className="box-cassette absolute" style={{ left: '40%', top: '44%', width: '17%', height: '13%', transform: 'rotate(-7deg)' }}>
-        <span className="box-item-label absolute top-[17%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#403c2a] text-[10px] md:text-sm leading-none">video editing</span>
+        <span className="box-item-label absolute top-[17%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#403c2a] text-xs md:text-sm leading-none">video editing</span>
       </div>
 
       {/* polaroid print — photography */}
       <div className="box-photo absolute" style={{ left: '41%', top: '60%', width: '14%', height: '19%', transform: 'rotate(4deg)' }}>
-        <span className="box-item-label absolute bottom-[4%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#2e2a23] text-[10px] md:text-sm leading-none">photography</span>
+        <span className="box-item-label absolute bottom-[4%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#2e2a23] text-xs md:text-sm leading-none">photography</span>
       </div>
 
       {/* floppy disk — coding */}
       <div className="box-floppy absolute" style={{ left: '19%', top: '69%', width: '13%', height: '13%', transform: 'rotate(7deg)' }}>
-        <span className="box-item-label absolute bottom-[14%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#24397a] text-[10px] md:text-sm leading-none z-10">coding</span>
+        <span className="box-item-label absolute bottom-[14%] w-full text-center font-hand font-bold uppercase tracking-wide text-[#24397a] text-xs md:text-sm leading-none z-10">coding</span>
       </div>
 
       {/* green tape strip — fun facts */}
@@ -744,8 +744,9 @@ export default function HobbiesPage() {
   );
   useJsonLd(HOBBIES_JSON_LD);
   // Session-only: a page reload always re-locks the gate — that's the spec,
-  // not an oversight.
-  const [unlocked, setUnlocked] = useState(false);
+  // not an oversight. Phones skip the cube gate entirely (fiddly under a
+  // thumb, and it pulls the whole three.js chunk) and land on the scrapbook.
+  const [unlocked, setUnlocked] = useState(MOBILE);
   const reduced = usePrefersReducedMotion();
   const wrapRef = useRef(null);
 

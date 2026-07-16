@@ -11,6 +11,7 @@ import { useWarp } from '../nav/WarpDrive';
 import { unlockAudio, whoosh } from '../lib/sfx';
 import { usePageTitle } from '../lib/hooks';
 import RollLink from '../lib/RollLink';
+import UniverseCards from '../hub/UniverseCards';
 
 const CoffeeScene = lazy(() => import('../hub/CoffeeScene'));
 const NodeGraph = lazy(() => import('../hub/NodeGraph'));
@@ -190,9 +191,9 @@ function ContactFooter() {
         className="sticky bottom-0 h-screen bg-[#0b0a12] overflow-hidden flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-10"
       >
         <GalaxyCanvas className="absolute inset-0" />
-        <div className="relative z-10 flex gap-8 font-mono text-xs tracking-wider text-[var(--ink-dim)]">
+        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:gap-8 font-mono text-xs tracking-wider text-[var(--ink-dim)]">
           {/* socials on the left, display style */}
-          <ul className="flex flex-1 flex-col items-start gap-1 font-display text-xl md:text-2xl text-[var(--ink)]">
+          <ul className="flex md:flex-1 flex-col items-start gap-1 font-display text-xl md:text-2xl text-[var(--ink)]">
             {/* [PLACEHOLDER: actual social links] */}
             <li><RollLink href="https://github.com/cooleditingx" className="hover:text-[var(--violet)] transition-colors">GitHub</RollLink></li>
             <li><RollLink href="https://www.linkedin.com/in/dua-anas/" className="hover:text-[var(--violet)] transition-colors">LinkedIn</RollLink></li>
@@ -200,8 +201,8 @@ function ContactFooter() {
             <li><RollLink href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[var(--violet)] transition-colors">Email</RollLink></li>
 
           </ul>
-          {/* email + credit on the right */}
-          <div className="flex flex-row gap-1 end text-right">
+          {/* email + credit on the right (stacked under the socials on phones) */}
+          <div className="flex flex-row gap-1 md:text-right">
             <p> Designed & built by DuaAnas Ⓒ {new Date().getFullYear()}</p>
             {/* <RollLink href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[var(--cyan)]">
               {CONTACT_EMAIL}
@@ -295,7 +296,7 @@ export default function Hub() {
         {/* 5.4 — hero (full viewport): green role line pinned top-left,
             then the giant intro type vertically centered, with the
             subheader at the left start of the name */}
-        <section className="snap-start min-h-screen flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-24">
+        <section className="snap-start relative min-h-screen flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-12 md:pb-24">
           <div className="w-full">
             <p className="font-mono text-sm md:text-base tracking-[0.35em] text-[var(--crt-green)]">
               Front End Developer
@@ -340,6 +341,13 @@ export default function Hub() {
               />
             </div>
           </div>
+          {/* phones: without snap paging, a small cue that there's more below */}
+          <p
+            aria-hidden="true"
+            className="md:hidden absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.4em] text-[var(--ink-dim)] animate-pulse"
+          >
+            SCROLL ↓
+          </p>
         </section>
 
         {/* 5.5 — about + zero-g café (merged): ABOUT header at the same
@@ -347,7 +355,7 @@ export default function Hub() {
             mirroring the contact panel — story + CTA on the left, the
             zero-g iced coffee floating in its own bounded column on the
             right — so everything, button included, fits one viewport */}
-        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-12 min-h-screen flex flex-col">
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-12 md:min-h-screen flex flex-col">
           {/* header block pushed to the right; the type fits this wrapper */}
           <div className="relative z-10 w-[78%] md:w-[62%] ml-auto">
             <ParticleText
@@ -423,9 +431,10 @@ export default function Hub() {
           </div>
         </section>
 
-        {/* 5.7 — node graph navigator: same hero-scale fitted header as ABOUT,
-            with the orb filling the rest of the viewport-height section */}
-        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-10 min-h-screen flex flex-col">
+        {/* 5.7 — universe navigator. Desktop: the drag-to-spin node-graph orb
+            filling a full viewport section. Mobile: three big tappable cards
+            instead — spin + tiny labels don't work under a thumb */}
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-10 md:min-h-screen flex flex-col">
           <ParticleText
             lines={() => [
               {
@@ -443,13 +452,17 @@ export default function Hub() {
               </h2>
             }
           />
-          <div className="flex-1 w-full mt-6 min-h-[380px] relative">
-            <motion.div {...fadeUp} className="absolute inset-0">
-              <Suspense fallback={<div className="h-full grid place-items-center font-mono text-xs text-[var(--ink-dim)]">charting stars…</div>}>
-                <NodeGraph />
-              </Suspense>
-            </motion.div>
-          </div>
+          {MOBILE ? (
+            <UniverseCards />
+          ) : (
+            <div className="flex-1 w-full mt-6 min-h-[380px] relative">
+              <motion.div {...fadeUp} className="absolute inset-0">
+                <Suspense fallback={<div className="h-full grid place-items-center font-mono text-xs text-[var(--ink-dim)]">charting stars…</div>}>
+                  <NodeGraph />
+                </Suspense>
+              </motion.div>
+            </div>
+          )}
         </section>
 
         {/* 5.8 + 5.9 — get in touch panel + curtain-reveal footer */}

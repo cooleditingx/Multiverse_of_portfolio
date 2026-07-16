@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePrefersReducedMotion } from '../lib/hooks';
 import CrtShell from './CrtShell';
 
-const BOOT_LINES = [
+const ALL_BOOT_LINES = [
   'INITIALIZING MULTIVERSE OS v2.2 ...',
   'CALIBRATING TIMELINE BRANCHES ...',
   'SPINNING UP UNIVERSE SHARDS [tech, video, hobbies, print] ...',
@@ -10,14 +10,16 @@ const BOOT_LINES = [
   'WARMING TIME-MACHINE COILS ...',
 ];
 
-const FLAT = BOOT_LINES.join('\n');
-const TOTAL_CHARS = FLAT.length;
-const BAR_CELLS = 14;
-
-// phones get an impatient teletype — same boot, roughly half the wait
+// phones get an impatient teletype — 3 boot lines typed at double speed,
+// so the gate drops from ~5s to ~1.2s while keeping the CRT flavor
 const FAST =
   typeof window !== 'undefined' &&
   window.matchMedia('(max-width: 767px)').matches;
+
+const BOOT_LINES = FAST ? ALL_BOOT_LINES.slice(0, 3) : ALL_BOOT_LINES;
+const FLAT = BOOT_LINES.join('\n');
+const TOTAL_CHARS = FLAT.length;
+const BAR_CELLS = 14;
 
 /**
  * CRT boot loader. Boot text is typed character-by-character onto the

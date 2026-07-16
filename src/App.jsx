@@ -1,11 +1,13 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+// Vite + react-router app → the /react entry ("/next" needs Next.js and
+// breaks the build). Tracks SPA route changes via the History API.
+import { Analytics } from '@vercel/analytics/react';
 import Hub from './pages/Hub';
 import SideMenu from './nav/SideMenu';
 import ErrorBoundary from './lib/ErrorBoundary';
 import { WarpProvider } from './nav/WarpDrive';
 import { useStore } from './store';
-import { Analytics } from "@vercel/analytics/next"
 
 const TechPage = lazy(() => import('./pages/TechPage'));
 // const VideoPage = lazy(() => import('./pages/VideoPage'));
@@ -38,7 +40,6 @@ export default function App() {
   const showNav = pathname !== '/' || explored;
 
   return (
-    <>
     <WarpProvider>
       <ScrollToTop />
       {showNav && <SideMenu />}
@@ -53,9 +54,8 @@ export default function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
+      <Analytics />
     </WarpProvider>
-    <Analytics></Analytics>
-    </>
   );
 }
   // { label: 'VIDEO EDITING', route: '/video' },

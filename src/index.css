@@ -72,8 +72,12 @@
 }
 
 html { scroll-behavior: smooth; }
-/* hub only (Hub toggles the class): sections snap into the viewport */
-html.snap-sections { scroll-snap-type: y mandatory; }
+/* hub only (Hub toggles the class): sections snap into the viewport.
+   Desktop-only — on touch, mandatory snap has no resting position inside
+   the 100vh footer-curtain zone, so it fights the scroll and stutters */
+@media (min-width: 768px) {
+  html.snap-sections { scroll-snap-type: y mandatory; }
+}
 
 /* rolling-letter link hover: each letter slides up, its clone rises from
    below, staggered left-to-right (delay set inline per letter) */

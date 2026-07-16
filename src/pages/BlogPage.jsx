@@ -516,7 +516,7 @@ export default function BlogPage() {
               className="fixed inset-0 z-[120] overflow-y-auto p-4 md:p-10 pointer-events-none grid place-items-start justify-center"
             >
               <motion.article
-                className="mag-article pointer-events-auto w-[min(720px,94vw)] rounded-sm p-8 md:p-12 my-6"
+                className="mag-article pointer-events-auto w-[min(720px,94vw)] rounded-sm p-5 sm:p-8 md:p-12 my-6"
                 initial={{ opacity: 0, y: 48, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 32, scale: 0.97 }}
@@ -531,7 +531,7 @@ export default function BlogPage() {
                     ref={closeRef}
                     onClick={() => setReading(null)}
                     aria-label="Close article"
-                    className="text-2xl leading-none opacity-50 hover:opacity-100 focus-visible:opacity-100"
+                    className="text-2xl leading-none opacity-50 hover:opacity-100 focus-visible:opacity-100 min-w-[44px] min-h-[44px] grid place-items-center -m-3"
                   >
                     ×
                   </button>
