@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 // Vite + react-router app → the /react entry ("/next" needs Next.js and
 // breaks the build). Tracks SPA route changes via the History API.
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Hub from './pages/Hub';
 import SideMenu from './nav/SideMenu';
 import ErrorBoundary from './lib/ErrorBoundary';
@@ -55,6 +56,7 @@ export default function App() {
         </Suspense>
       </ErrorBoundary>
       <Analytics />
+      <SpeedInsights />
     </WarpProvider>
   );
 }
