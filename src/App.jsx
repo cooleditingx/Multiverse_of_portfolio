@@ -42,18 +42,22 @@ export default function App() {
 
   return (
     <WarpProvider>
+      {/* keyboard users can jump past the fixed nav straight to the page */}
+      <a href="#main" className="skip-link">Skip to content</a>
       <ScrollToTop />
       {showNav && <SideMenu />}
       <ErrorBoundary>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<Hub />} />
-            <Route path="/tech" element={<TechPage />} />
-            <Route path="/hobbies" element={<HobbiesPage />} />
-            <Route path="/curiosity-planet" element={<BlogPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
+        <main id="main" tabIndex={-1}>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Hub />} />
+              <Route path="/tech" element={<TechPage />} />
+              <Route path="/hobbies" element={<HobbiesPage />} />
+              <Route path="/curiosity-planet" element={<BlogPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+        </main>
       </ErrorBoundary>
       <Analytics />
       <SpeedInsights />

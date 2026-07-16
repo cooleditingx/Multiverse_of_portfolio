@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# [PLACEHOLDER: replace example.com with the real deployed domain]
-Sitemap: https://example.com/sitemap.xml
+# live domain: www.duaanas.com
+Sitemap: https://www.duaanas.com/sitemap.xml

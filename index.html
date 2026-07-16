@@ -8,31 +8,33 @@
     <title>Multiverse of Portfolio</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <!-- [PLACEHOLDER: replace example.com with the real deployed domain in the 4 URLs below] -->
-    <link rel="canonical" href="https://example.com/" />
-    <link rel="alternate" hreflang="en" href="https://example.com/" />
-    <link rel="alternate" hreflang="x-default" href="https://example.com/" />
+    <!-- live domain: www.duaanas.com -->
+    <link rel="canonical" href="https://www.duaanas.com/" />
+    <link rel="alternate" hreflang="en" href="https://www.duaanas.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.duaanas.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Multiverse of Portfolio" />
     <meta property="og:description" content="Step into the Multiverse of Portfolio — explore Dua Anas's front-end projects, hobbies and ideas across themed universes, then get in touch." />
-    <meta property="og:url" content="https://example.com/" />
-    <meta property="og:image" content="https://example.com/og.png" />
+    <meta property="og:url" content="https://www.duaanas.com/" />
+    <meta property="og:image" content="https://www.duaanas.com/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Multiverse of Portfolio" />
     <meta name="twitter:description" content="Step into the Multiverse of Portfolio — explore Dua Anas's front-end projects, hobbies and ideas across themed universes, then get in touch." />
-    <meta name="twitter:image" content="https://example.com/og.png" />
+    <meta name="twitter:image" content="https://www.duaanas.com/og.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Google Fonts loaded async (media swap) so the CSS never blocks first
          paint; every face uses display=swap, so text renders in fallbacks
-         first. noscript keeps fonts for JS-off readers. -->
+         first. main.jsx flips media to 'all' once loaded — no inline JS, so
+         the CSP can stay script-src 'self'. noscript keeps fonts for JS-off
+         readers. -->
     <link
+      data-async-fonts
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1;800&family=Caveat:wght@400;600;700&display=swap"
       rel="stylesheet"
       media="print"
-      onload="this.media='all'"
     />
     <noscript>
       <link
@@ -45,25 +47,24 @@
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/aroma_vintage/AromaVintage-Regular.woff2" />
     <style>html, body { background: #08070f; }</style>
     <!-- structured data: the site + its one shared Person entity; pages add
-         their own JSON-LD (ItemList, Blog, AboutPage) referencing #person.
-         [PLACEHOLDER: example.com URLs swap with the real domain] -->
+         their own JSON-LD (ItemList, Blog, AboutPage) referencing #person. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://example.com/#website",
-          "url": "https://example.com/",
+          "@id": "https://www.duaanas.com/#website",
+          "url": "https://www.duaanas.com/",
           "name": "Multiverse of Portfolio",
           "description": "Step into the Multiverse of Portfolio — explore Dua Anas's front-end projects, hobbies and ideas across themed universes, then get in touch.",
-          "publisher": { "@id": "https://example.com/#person" }
+          "publisher": { "@id": "https://www.duaanas.com/#person" }
         },
         {
           "@type": "Person",
-          "@id": "https://example.com/#person",
+          "@id": "https://www.duaanas.com/#person",
           "name": "Dua Anas",
-          "url": "https://example.com/",
+          "url": "https://www.duaanas.com/",
           "jobTitle": "Front End Developer",
           "knowsAbout": ["JavaScript", "React", "CSS", "Node.js", "Front-end development"],
           "sameAs": [

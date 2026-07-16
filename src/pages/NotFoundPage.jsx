@@ -189,7 +189,7 @@ export default function NotFoundPage() {
   };
 
   return (
-    <main
+    <section
       className={`u-hub nf-wrap scanlines vignette ${hard ? 'nf-jolt-hard' : 'nf-jolt'}`}
     >
       <MatrixRain reduced={reduced} />
@@ -257,6 +257,6 @@ export default function NotFoundPage() {
           you were not supposed to find this place.
         </p>
       </div>
-    </main>
+    </section>
   );
 }

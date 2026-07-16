@@ -292,7 +292,7 @@ export default function Hub() {
       )}
 
       {phase === 'explored' && (
-      <main className="relative z-10">
+      <div className="relative z-10">
         {/* 5.4 — hero (full viewport): green role line pinned top-left,
             then the giant intro type vertically centered, with the
             subheader at the left start of the name */}
@@ -467,7 +467,7 @@ export default function Hub() {
 
         {/* 5.8 + 5.9 — get in touch panel + curtain-reveal footer */}
         <ContactFooter />
-      </main>
+      </div>
       )}
     </div>
   );

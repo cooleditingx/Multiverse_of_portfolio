@@ -124,7 +124,7 @@ function RansomCh({ src, tilt, height }) {
 }
 function Ransom({ text, size = '3.4rem', className = '' }) {
   return (
-    <span className={`ransom ${className}`} aria-label={text}>
+    <span className={`ransom ${className}`} role="img" aria-label={text}>
       {[...text.toUpperCase()].map((ch, i) => {
         if (ch === ' ') return <span key={i} style={{ width: '0.45em' }} aria-hidden="true" />;
         const src = ch === '!' ? `/ransom/excl-${(i % 3) + 1}.webp` : `/ransom/${ch}-${(i % 3) + 1}.webp`;
@@ -588,11 +588,10 @@ function CraftFooter() {
           </p>
         </div>
         <div className="mt-10 flex items-end justify-between gap-6 flex-wrap">
-          {/* [PLACEHOLDER: actual social links] */}
           <nav aria-label="Social links" className="flex gap-4 flex-wrap">
-            <a href="#" className="label-stx" style={{ '--r': '-1.5deg' }}>GitHub</a>
-            <a href="#" className="label-stx" style={{ '--r': '1deg' }}>LinkedIn</a>
-            <a href="mailto:hello@example.com" className="label-stx" style={{ '--r': '-1deg' }}>Email</a>
+            <a href="https://github.com/cooleditingx" target="_blank" rel="noreferrer" className="label-stx" style={{ '--r': '-1.5deg' }}>GitHub</a>
+            <a href="https://www.linkedin.com/in/dua-anas/" target="_blank" rel="noreferrer" className="label-stx" style={{ '--r': '1deg' }}>LinkedIn</a>
+            <a href="mailto:duaanas0309@gmail.com" className="label-stx" style={{ '--r': '-1deg' }}>Email</a>
           </nav>
           <p className="font-mono text-xs tracking-wider opacity-75">
             © {new Date().getFullYear()} · cut, glued &amp; taped by hand
