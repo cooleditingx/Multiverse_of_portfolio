@@ -26,6 +26,13 @@ import { useInViewOnce, usePrefersReducedMotion } from '../lib/hooks';
  * readers) is simply shown statically.
  */
 
+// On phones the condense animation is both unreadable (the type is too small
+// for the particle cloud to read as letters) and expensive (4 WebGL contexts
+// on a mobile GPU) — those viewports get the crisp static text immediately.
+const MOBILE =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px)').matches;
+
 // ---- timeline (seconds) ----
 const SPEED = 1.25;            // playback rate; 1 = the original ~5s condense
 const T_TEXT_IN = [3.4, 4.6];  // solid text fades in
@@ -361,7 +368,7 @@ export default function ParticleText({
   };
 
   useEffect(() => {
-    if (!inView || reduced || startedRef.current) return;
+    if (!inView || reduced || MOBILE || startedRef.current) return;
     startedRef.current = true;
 
     const canvas = canvasRef.current;
@@ -589,7 +596,7 @@ export default function ParticleText({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView, reduced, text, size, color, accent, accent2, inkColor, wrapRef]);
 
-  const showStatic = reduced || fallback;
+  const showStatic = reduced || fallback || MOBILE;
   // static path never animates — report "done" right away
   useEffect(() => {
     if (showStatic) fireDone();

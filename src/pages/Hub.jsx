@@ -15,6 +15,12 @@ import RollLink from '../lib/RollLink';
 const CoffeeScene = lazy(() => import('../hub/CoffeeScene'));
 const NodeGraph = lazy(() => import('../hub/NodeGraph'));
 
+// phones skip the heaviest toys: the 3D coffee cup (a ~900KB three.js chunk)
+// never even downloads there
+const MOBILE =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px)').matches;
+
 /* [PLACEHOLDER: real Buy Me a Coffee / Ko-fi username & link] */
 const BMC_URL = 'https://buymeacoffee.com/cooleditingx';
 /* [PLACEHOLDER: email / form / social link] */
@@ -87,7 +93,7 @@ function ContactFooter() {
 
   return (
     <div ref={revealRef} className="relative snap-end">
-      <section className="snap-start relative z-10 min-h-screen flex flex-col pl-24 pr-8 pt-16 pb-10 bg-[var(--space-bg)] text-[var(--ink)] rounded-b-[3rem]">
+      <section className="snap-start relative z-10 min-h-screen flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-10 bg-[var(--space-bg)] text-[var(--ink)] rounded-b-[3rem]">
         <ParticleText
           onDone={() => setHeaderDone(true)}
           doneAt={0.5}
@@ -125,7 +131,7 @@ function ContactFooter() {
             }}
             className="w-full max-w-xl"
           >
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <label className="block">
                 <span className="block font-mono text-[11px] tracking-[0.3em] text-[var(--ink-dim)] mb-2">NAME</span>
                 <input
@@ -181,7 +187,7 @@ function ContactFooter() {
 
       <footer
         onFocus={revealOnFocus}
-        className="sticky bottom-0 h-screen bg-[#0b0a12] overflow-hidden flex flex-col pl-24 pr-8 pt-10"
+        className="sticky bottom-0 h-screen bg-[#0b0a12] overflow-hidden flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-10"
       >
         <GalaxyCanvas className="absolute inset-0" />
         <div className="relative z-10 flex gap-8 font-mono text-xs tracking-wider text-[var(--ink-dim)]">
@@ -289,7 +295,7 @@ export default function Hub() {
         {/* 5.4 — hero (full viewport): green role line pinned top-left,
             then the giant intro type vertically centered, with the
             subheader at the left start of the name */}
-        <section className="snap-start min-h-screen flex flex-col pl-24 pr-8 pt-16 pb-24">
+        <section className="snap-start min-h-screen flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-24">
           <div className="w-full">
             <p className="font-mono text-sm md:text-base tracking-[0.35em] text-[var(--crt-green)]">
               Front End Developer
@@ -341,7 +347,7 @@ export default function Hub() {
             mirroring the contact panel — story + CTA on the left, the
             zero-g iced coffee floating in its own bounded column on the
             right — so everything, button included, fits one viewport */}
-        <section className="snap-start pl-24 pr-8 pt-16 pb-12 min-h-screen flex flex-col">
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-12 min-h-screen flex flex-col">
           {/* header block pushed to the right; the type fits this wrapper */}
           <div className="relative z-10 w-[78%] md:w-[62%] ml-auto">
             <ParticleText
@@ -404,18 +410,22 @@ export default function Hub() {
                 </a>
               </motion.div>
             </div>
-            {/* the cup floats inside this bounded column, behind nothing */}
-            <div className="relative w-full h-[40vh] md:h-[56vh]">
-              <Suspense fallback={null}>
-                <CoffeeScene />
-              </Suspense>
-            </div>
+            {/* the cup floats inside this bounded column, behind nothing.
+                Desktop-only: on phones the 3D scene costs a ~900KB chunk +
+                GPU time and the column stacks below the text anyway */}
+            {!MOBILE && (
+              <div className="relative w-full h-[40vh] md:h-[56vh]">
+                <Suspense fallback={null}>
+                  <CoffeeScene />
+                </Suspense>
+              </div>
+            )}
           </div>
         </section>
 
         {/* 5.7 — node graph navigator: same hero-scale fitted header as ABOUT,
             with the orb filling the rest of the viewport-height section */}
-        <section className="snap-start pl-24 pr-8 pt-16 pb-10 min-h-screen flex flex-col">
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-16 pb-10 min-h-screen flex flex-col">
           <ParticleText
             lines={() => [
               {

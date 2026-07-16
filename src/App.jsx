@@ -5,6 +5,7 @@ import SideMenu from './nav/SideMenu';
 import ErrorBoundary from './lib/ErrorBoundary';
 import { WarpProvider } from './nav/WarpDrive';
 import { useStore } from './store';
+import { Analytics } from "@vercel/analytics/next"
 
 const TechPage = lazy(() => import('./pages/TechPage'));
 // const VideoPage = lazy(() => import('./pages/VideoPage'));
@@ -37,6 +38,7 @@ export default function App() {
   const showNav = pathname !== '/' || explored;
 
   return (
+    <>
     <WarpProvider>
       <ScrollToTop />
       {showNav && <SideMenu />}
@@ -52,6 +54,8 @@ export default function App() {
         </Suspense>
       </ErrorBoundary>
     </WarpProvider>
+    <Analytics></Analytics>
+    </>
   );
 }
   // { label: 'VIDEO EDITING', route: '/video' },

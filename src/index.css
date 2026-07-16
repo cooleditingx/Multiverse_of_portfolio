@@ -207,6 +207,14 @@ button { cursor: pointer; font: inherit; }
   margin-left: -2vw;
   padding-left: 2vw;
 }
+/* phones: the panel is 92vw wide — links size to it so the longest label
+   ("CURIOSITY PLANET") never clips */
+@media (max-width: 767px) {
+  .menu-mega-link {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    width: 92vw;
+  }
+}
 /* purplish/bluish translucent gradient bar, faded in on hover */
 .menu-mega-link::before {
   content: '';
@@ -1487,6 +1495,14 @@ button.popcard:hover:not(.is-open) .popcard-flap { transform: rotateX(8deg); }
   width: max-content;
   padding-top: 32px;
   will-change: transform;
+}
+/* phones: books sized against the narrow edge, not the tall viewport —
+   otherwise a 0.93-height book towers over a 390px-wide screen */
+@media (max-width: 767px) {
+  .bookshelf {
+    --book-h: clamp(240px, 110vw, 430px);
+    --spine-w: clamp(42px, 13vw, 58px);
+  }
 }
 /* each copy carries its own trailing gap so every copy is exactly one loop period wide */
 .bookshelf-copy {

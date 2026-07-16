@@ -34,7 +34,7 @@ export default function SideMenu() {
       <button
         aria-label="Open navigation menu"
         onClick={() => { unlockAudio(); click(); setMenuOpen(true); }}
-        className="fixed left-4 top-1/2 -translate-y-1/2 z-[90] w-10 h-12 grid place-items-center tars-btn"
+        className="fixed z-[90] w-10 h-12 grid place-items-center tars-btn right-4 bottom-6 md:right-auto md:bottom-auto md:left-4 md:top-1/2 md:-translate-y-1/2"
       >
         {/* TARS in its leaning side pose; straightens up on hover */}
         <span className="tars-bot" aria-hidden="true">
@@ -68,7 +68,7 @@ export default function SideMenu() {
             key="panel"
             ref={panelRef}
             aria-label="Site navigation"
-            className="fixed left-0 top-0 bottom-0 w-[50vw] min-w-[340px] z-[100] bg-[#131313] border border-[#282b4a] flex flex-col overflow-hidden"
+            className="fixed left-0 top-0 bottom-0 w-[92vw] md:w-[50vw] md:min-w-[340px] z-[100] bg-[#131313] border border-[#282b4a] flex flex-col overflow-hidden"
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}

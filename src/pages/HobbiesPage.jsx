@@ -17,6 +17,13 @@ const HOBBIES_JSON_LD = {
 
 const RubiksCube = lazy(() => import('../hobbies/RubiksCube'));
 
+// phones: the pinned instax deck can't work — stacked cards are ~5 screens
+// tall inside one overflow-hidden viewport — so the scrapbook lays out in
+// normal flow there (same as the reduced-motion path)
+const MOBILE =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px)').matches;
+
 /* [PLACEHOLDER: real obsession photos/content, 3D card-making photos/process, project logs] */
 const OBSESSIONS = [
   { title: 'Obsession #1', note: '[PLACEHOLDER: what it is + why it ate my brain]', hue: 'linear-gradient(135deg, #e8dcc0, #cdbb92)', r: -2 },
@@ -312,7 +319,7 @@ function ObsessionDeck() {
       <Chapter no="01" title="current obsessions" />
     </>
   );
-  if (reduced) {
+  if (reduced || MOBILE) {
     return (
       <div ref={ref}>
         {heading}

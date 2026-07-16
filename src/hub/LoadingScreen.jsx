@@ -14,6 +14,11 @@ const FLAT = BOOT_LINES.join('\n');
 const TOTAL_CHARS = FLAT.length;
 const BAR_CELLS = 14;
 
+// phones get an impatient teletype — same boot, roughly half the wait
+const FAST =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(max-width: 767px)').matches;
+
 /**
  * CRT boot loader. Boot text is typed character-by-character onto the
  * fisheye-curved "monitor"; progress is tied to typing plus real
@@ -43,7 +48,9 @@ export default function LoadingScreen({ onDone }) {
       setTyped(i);
       if (i >= TOTAL_CHARS) return;
       // breathe at line breaks, jitter per keystroke like a real teletype
-      const delay = FLAT[i - 1] === '\n' ? 150 : 4 + Math.random() * 14;
+      const delay = FLAT[i - 1] === '\n'
+        ? (FAST ? 70 : 150)
+        : (FAST ? 2 + Math.random() * 6 : 4 + Math.random() * 14);
       timer = setTimeout(type, delay);
     };
     timer = setTimeout(type, 250);

@@ -29,7 +29,7 @@ export default function GalaxyCanvas({ className = '' }) {
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
     const ctx = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.5 : 2);
 
     let W = 0;
     let H = 0;
