@@ -26,9 +26,9 @@ import { useInViewOnce, usePrefersReducedMotion } from '../lib/hooks';
  * readers) is simply shown statically.
  */
 
-// On phones the condense animation is both unreadable (the type is too small
-// for the particle cloud to read as letters) and expensive (4 WebGL contexts
-// on a mobile GPU) — those viewports get the crisp static text immediately.
+// Phones run the same one-shot condense with a smaller budget: dpr capped
+// at 1.5 and ~6k particles (vs 20k). Contexts are sequential (created on
+// scroll-in, freed ~4s later at swap-to-image), so the GPU cost is transient.
 const MOBILE =
   typeof window !== 'undefined' &&
   window.matchMedia('(max-width: 767px)').matches;
@@ -218,7 +218,7 @@ function rasterizeText(text, W, size, dpr, inkColor = '#ffffff') {
       }
     }
   }
-  const MAX = isSmall ? 9000 : 20000;
+  const MAX = isSmall ? 6000 : 20000;
   while (targets.length > MAX) {
     targets.splice(Math.floor(Math.random() * targets.length), 1);
   }
@@ -317,7 +317,7 @@ function rasterizeLines(lines, W, dpr, align = 'center', inkColor = '#ffffff') {
       }
     }
   }
-  const MAX = W < 640 ? 9000 : 20000;
+  const MAX = W < 640 ? 6000 : 20000;
   while (targets.length > MAX) {
     targets.splice(Math.floor(Math.random() * targets.length), 1);
   }
@@ -368,14 +368,14 @@ export default function ParticleText({
   };
 
   useEffect(() => {
-    if (!inView || reduced || MOBILE || startedRef.current) return;
+    if (!inView || reduced || startedRef.current) return;
     startedRef.current = true;
 
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, MOBILE ? 1.5 : 2);
     const W = wrap.clientWidth;
     const spec = typeof lines === 'function' ? lines(W, window.innerWidth) : lines;
 
@@ -596,7 +596,7 @@ export default function ParticleText({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView, reduced, text, size, color, accent, accent2, inkColor, wrapRef]);
 
-  const showStatic = reduced || fallback || MOBILE;
+  const showStatic = reduced || fallback;
   // static path never animates — report "done" right away
   useEffect(() => {
     if (showStatic) fireDone();

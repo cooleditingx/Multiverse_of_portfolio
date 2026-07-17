@@ -311,26 +311,57 @@ export default function Hub() {
           <div className="flex-1 flex items-center w-full">
             <div className="w-full">
               <ParticleText
-                lines={() => [
-                  {
-                    text: 'Hi I Am',
-                    fontFamily: '"Space Grotesk", sans-serif',
-                    weight: 400,
-                    sizePx: 100, // fit rescales this to half the wrap width
-                    fit: 0.5,
-                    lineHeight: 1.1,
-                  },
-                  {
-                    // "Anas" styled to match the footer's italic "Anas."
-                    runs: [
-                      { text: 'Dua ', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 700 },
-                      { text: 'Anas', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 400, italic: true },
-                    ],
-                    sizePx: 100, // fit rescales this to span the wrap width
-                    fit: true,
-                    lineHeight: 0.95,
-                  },
-                ]}
+                lines={(w, vw) =>
+                  vw < 768
+                    ? [
+                        // phones: the giant stacked intro from the sketch
+                        {
+                          text: 'HI',
+                          fontFamily: '"Space Grotesk", sans-serif',
+                          weight: 700,
+                          sizePx: 100, // fit rescales per line
+                          fit: 0.45,
+                          lineHeight: 1.0,
+                        },
+                        {
+                          text: 'I AM',
+                          fontFamily: '"Space Grotesk", sans-serif',
+                          weight: 700,
+                          sizePx: 100,
+                          fit: 0.78,
+                          lineHeight: 1.1,
+                        },
+                        {
+                          runs: [
+                            { text: 'Dua ', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 700 },
+                            { text: 'Anas', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 400, italic: true },
+                          ],
+                          sizePx: 100,
+                          fit: true,
+                          lineHeight: 1.05,
+                        },
+                      ]
+                    : [
+                        {
+                          text: 'Hi I Am',
+                          fontFamily: '"Space Grotesk", sans-serif',
+                          weight: 400,
+                          sizePx: 100, // fit rescales this to half the wrap width
+                          fit: 0.5,
+                          lineHeight: 1.1,
+                        },
+                        {
+                          // "Anas" styled to match the footer's italic "Anas."
+                          runs: [
+                            { text: 'Dua ', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 700 },
+                            { text: 'Anas', fontFamily: '"Linux Biolinum", Georgia, serif', weight: 400, italic: true },
+                          ],
+                          sizePx: 100, // fit rescales this to span the wrap width
+                          fit: true,
+                          lineHeight: 0.95,
+                        },
+                      ]
+                }
                 staticRender={
                   <div className="w-full text-left">
                     {/* phones: giant three-row intro filling the screen (sketch);
@@ -377,7 +408,7 @@ export default function Hub() {
             mirroring the contact panel — story + CTA on the left, the
             zero-g iced coffee floating in its own bounded column on the
             right — so everything, button included, fits one viewport */}
-        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-12 md:min-h-screen flex flex-col">
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-12 min-h-screen flex flex-col">
           {/* header block pushed to the right; the type fits this wrapper */}
           <div className="relative z-10 w-[78%] md:w-[62%] ml-auto">
             <ParticleText
@@ -456,7 +487,7 @@ export default function Hub() {
         {/* 5.7 — universe navigator. Desktop: the drag-to-spin node-graph orb
             filling a full viewport section. Mobile: three big tappable cards
             instead — spin + tiny labels don't work under a thumb */}
-        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-10 md:min-h-screen flex flex-col">
+        <section className="snap-start px-5 sm:px-8 md:pl-24 md:pr-8 pt-12 md:pt-16 pb-10 min-h-screen flex flex-col">
           <ParticleText
             lines={() => [
               {
@@ -474,8 +505,9 @@ export default function Hub() {
               </h2>
             }
           />
-          {/* sketch: phones get the same orb, smaller, with a handwritten cue */}
-          <div className={`w-full relative ${MOBILE ? 'mt-2 h-[62vh] min-h-[360px]' : 'flex-1 mt-6 min-h-[380px]'}`}>
+          {/* sketch: phones get the same orb, smaller, with a handwritten cue;
+              flex-1 lets it soak up the full-screen section on every size */}
+          <div className={`w-full relative flex-1 min-h-[380px] ${MOBILE ? 'mt-2' : 'mt-6'}`}>
             <motion.div {...fadeUp} className="absolute inset-0">
               <Suspense fallback={<div className="h-full grid place-items-center font-mono text-xs text-[var(--ink-dim)]">charting stars…</div>}>
                 <NodeGraph
