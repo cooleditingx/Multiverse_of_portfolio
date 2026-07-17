@@ -41,7 +41,10 @@ function spherePoints(n) {
   return pts;
 }
 
-export default function NodeGraph() {
+export default function NodeGraph({
+  caption = 'DRAG TO SPIN · CLICK A NODE TO TRAVEL',
+  captionClassName = 'mt-6 font-mono text-[10px] tracking-widest text-[var(--ink-dim)]',
+}) {
   const warpTo = useWarp();
   const [wrapRef, { width, height }] = useSize();
   const canvasRef = useRef(null);
@@ -322,9 +325,7 @@ export default function NodeGraph() {
   return (
     <div ref={wrapRef} className="h-full flex flex-col items-center justify-center">
       <canvas ref={canvasRef} aria-hidden="true" />
-      <p className="mt-6 font-mono text-[10px] tracking-widest text-[var(--ink-dim)]">
-        DRAG TO SPIN · CLICK A NODE TO TRAVEL
-      </p>
+      <p className={captionClassName}>{caption}</p>
       {/* keyboard-accessible fallback for the canvas orb */}
       <nav aria-label="Universe quick links" className="sr-only">
         {PAGES.map((pg) => (

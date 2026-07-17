@@ -34,7 +34,7 @@ export default function SideMenu() {
       <button
         aria-label="Open navigation menu"
         onClick={() => { unlockAudio(); click(); setMenuOpen(true); }}
-        className="fixed z-[90] w-10 h-12 grid place-items-center tars-btn right-4 bottom-6 md:right-auto md:bottom-auto md:left-4 md:top-1/2 md:-translate-y-1/2"
+        className="fixed z-[90] w-10 h-12 grid place-items-center tars-btn right-4 top-4 md:right-auto md:left-4 md:top-1/2 md:-translate-y-1/2"
       >
         {/* TARS in its leaning side pose; straightens up on hover */}
         <span className="tars-bot" aria-hidden="true">

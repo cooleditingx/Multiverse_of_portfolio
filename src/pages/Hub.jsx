@@ -11,7 +11,6 @@ import { useWarp } from '../nav/WarpDrive';
 import { unlockAudio, whoosh } from '../lib/sfx';
 import { usePageTitle } from '../lib/hooks';
 import RollLink from '../lib/RollLink';
-import UniverseCards from '../hub/UniverseCards';
 
 const CoffeeScene = lazy(() => import('../hub/CoffeeScene'));
 const NodeGraph = lazy(() => import('../hub/NodeGraph'));
@@ -130,9 +129,9 @@ function ContactFooter() {
               whoosh();
               window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
             }}
-            className="w-full max-w-xl"
+            className="w-full max-w-xl order-2 md:order-1"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5">
               <label className="block">
                 <span className="block font-mono text-[11px] tracking-[0.3em] text-[var(--ink-dim)] mb-2">NAME</span>
                 <input
@@ -171,8 +170,9 @@ function ContactFooter() {
             </button>
           </motion.form>
 
-          {/* no top padding: the text starts level with the NAME label */}
-          <div className="flex flex-col gap-10 md:pl-4">
+          {/* no top padding: the text starts level with the NAME label;
+              phones read the pitch first, then the form (sketch order) */}
+          <div className="flex flex-col gap-6 md:gap-10 md:pl-4 order-1 md:order-2">
             <SlideUpText start={headerDone} className="text-lg md:text-xl max-w-xl">
               Do you want to bring your website idea to life? Let's talk, so it can shine as bright as the ideas behind it.
             </SlideUpText>
@@ -190,10 +190,14 @@ function ContactFooter() {
         onFocus={revealOnFocus}
         className="sticky bottom-0 h-screen bg-[#0b0a12] overflow-hidden flex flex-col px-5 sm:px-8 md:pl-24 md:pr-8 pt-10"
       >
-        <GalaxyCanvas className="absolute inset-0" />
-        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:gap-8 font-mono text-xs tracking-wider text-[var(--ink-dim)]">
+        {/* phones: still galaxy — same disc, drawn once, no spin (sketch note) */}
+        <GalaxyCanvas className="absolute inset-0" still={MOBILE} />
+        {/* sketch order on phones: giant name up top, galaxy in the middle,
+            socials centered below it, credit at the very bottom; desktop
+            keeps socials top / name bottom via md:order */}
+        <div className="relative z-10 order-3 md:order-1 flex flex-col items-center gap-6 pb-6 md:pb-0 md:flex-row md:items-start md:gap-8 font-mono text-xs tracking-wider text-[var(--ink-dim)]">
           {/* socials on the left, display style */}
-          <ul className="flex md:flex-1 flex-col items-start gap-1 font-display text-xl md:text-2xl text-[var(--ink)]">
+          <ul className="flex md:flex-1 flex-col items-center md:items-start gap-2 md:gap-1 font-display text-3xl md:text-2xl text-[var(--ink)]">
             {/* [PLACEHOLDER: actual social links] */}
             <li><RollLink href="https://github.com/cooleditingx" className="hover:text-[var(--violet)] transition-colors">GitHub</RollLink></li>
             <li><RollLink href="https://www.linkedin.com/in/dua-anas/" className="hover:text-[var(--violet)] transition-colors">LinkedIn</RollLink></li>
@@ -201,16 +205,16 @@ function ContactFooter() {
             <li><RollLink href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[var(--violet)] transition-colors">Email</RollLink></li>
 
           </ul>
-          {/* email + credit on the right (stacked under the socials on phones) */}
-          <div className="flex flex-row gap-1 md:text-right">
+          {/* email + credit on the right (centered under the socials on phones) */}
+          <div className="flex flex-row gap-1 justify-center md:justify-start md:text-right">
             <p> Designed & built by DuaAnas Ⓒ {new Date().getFullYear()}</p>
             {/* <RollLink href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[var(--cyan)]">
               {CONTACT_EMAIL}
             </RollLink> */}
           </div>
         </div>
-        <div className="flex-1" />
-        <div className="relative z-10 flex items-end justify-between leading-[0.8] text-[var(--ink)]">
+        <div className="flex-1 order-2" />
+        <div className="relative z-10 order-1 md:order-3 flex items-end justify-between leading-[0.8] text-[var(--ink)]">
           <RiseWord
             progress={reveal}
             text="Dua"
@@ -329,13 +333,31 @@ export default function Hub() {
                 ]}
                 staticRender={
                   <div className="w-full text-left">
-                    <p className="font-aroma text-[8.5vw] leading-[1.1] text-[var(--ink)]">
-                      Hi I Am!
-                    </p>
-                    <h1 className="font-biolinum text-[23vw] leading-[0.9] text-[var(--ink)]">
-                      <span className="font-bold">Dua </span>
-                      <span className="italic font-normal">Anas</span>
-                    </h1>
+                    {/* phones: giant three-row intro filling the screen (sketch);
+                        ≥md keeps the old two-line reduced-motion fallback */}
+                    <div className="md:hidden text-[var(--ink)]">
+                      <p className="font-grotesk font-bold uppercase leading-[0.85] text-[34vw]">
+                        Hi
+                      </p>
+                      <h1 className="leading-none">
+                        <span className="block font-grotesk font-bold uppercase leading-[0.95] text-[26vw]">
+                          I Am
+                        </span>
+                        <span className="block font-biolinum leading-[1.05] text-[21.5vw] mt-2">
+                          <span className="font-bold">Dua </span>
+                          <span className="italic font-normal">Anas</span>
+                        </span>
+                      </h1>
+                    </div>
+                    <div className="hidden md:block">
+                      <p className="font-aroma text-[8.5vw] leading-[1.1] text-[var(--ink)]">
+                        Hi I Am!
+                      </p>
+                      <h1 className="font-biolinum text-[23vw] leading-[0.9] text-[var(--ink)]">
+                        <span className="font-bold">Dua </span>
+                        <span className="italic font-normal">Anas</span>
+                      </h1>
+                    </div>
                   </div>
                 }
               />
@@ -403,7 +425,7 @@ export default function Hub() {
                 <span className="text-[var(--gold)] font-semibold">Dream Ladder</span>.
               </SlideUpText> */}
               <motion.div
-                className="mt-2"
+                className="mt-2 text-center md:text-left"
                 initial={{ opacity: 0, y: 32 }}
                 animate={aboutHeaderDone ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, ease: 'easeOut', delay: 0.9 }}
@@ -412,7 +434,7 @@ export default function Hub() {
                   href={BMC_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-explore inline-block text-sm md:text-base -ml-4"
+                  className="btn-explore inline-block text-sm md:text-base md:-ml-4"
                 >
                   BUY ME COFFEE;)
                 </a>
@@ -452,17 +474,21 @@ export default function Hub() {
               </h2>
             }
           />
-          {MOBILE ? (
-            <UniverseCards />
-          ) : (
-            <div className="flex-1 w-full mt-6 min-h-[380px] relative">
-              <motion.div {...fadeUp} className="absolute inset-0">
-                <Suspense fallback={<div className="h-full grid place-items-center font-mono text-xs text-[var(--ink-dim)]">charting stars…</div>}>
-                  <NodeGraph />
-                </Suspense>
-              </motion.div>
-            </div>
-          )}
+          {/* sketch: phones get the same orb, smaller, with a handwritten cue */}
+          <div className={`w-full relative ${MOBILE ? 'mt-2 h-[62vh] min-h-[360px]' : 'flex-1 mt-6 min-h-[380px]'}`}>
+            <motion.div {...fadeUp} className="absolute inset-0">
+              <Suspense fallback={<div className="h-full grid place-items-center font-mono text-xs text-[var(--ink-dim)]">charting stars…</div>}>
+                <NodeGraph
+                  caption={MOBILE ? 'pick a node' : undefined}
+                  captionClassName={
+                    MOBILE
+                      ? 'mt-3 font-aroma text-2xl text-[var(--ink)] -rotate-3'
+                      : undefined
+                  }
+                />
+              </Suspense>
+            </motion.div>
+          </div>
         </section>
 
         {/* 5.8 + 5.9 — get in touch panel + curtain-reveal footer */}

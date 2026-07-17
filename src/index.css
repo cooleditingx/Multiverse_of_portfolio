@@ -106,6 +106,7 @@ body.no-scroll { overflow: hidden; }
 .font-aroma { font-family: "Aroma Vintage", "Space Grotesk", sans-serif; }
 .font-biolinum { font-family: "Linux Biolinum", Georgia, serif; }
 .font-mono { font-family: "Space Mono", monospace; }
+.font-grotesk { font-family: "Space Grotesk", sans-serif; }
 .font-bebas { font-family: "Bebas Neue", "Space Grotesk", sans-serif; }
 .font-morse { font-family: "Bootcamp Morsecode", monospace; }
 .font-serif { font-family: "Playfair Display", Georgia, serif; }
@@ -514,6 +515,11 @@ button { cursor: pointer; font: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .crt-rollbar { animation: none; opacity: 0; }
+}
+
+/* phones: no moving scan line drifting down the CRT (mobile sketch note) */
+@media (max-width: 767px) {
   .crt-rollbar { animation: none; opacity: 0; }
 }
 

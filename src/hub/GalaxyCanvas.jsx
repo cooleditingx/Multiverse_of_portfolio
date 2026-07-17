@@ -17,11 +17,14 @@ const N_STARS = 1600;
 const TILT = 0.34;
 const COLORS = ['#dfe9ff', '#dfe9ff', '#bcd6ff', '#8b5cf6', '#4ce0d2'];
 
-export default function GalaxyCanvas({ className = '' }) {
+/** `still` renders the same galaxy once as a static picture — no spin,
+ *  no tilt, no RAF loop (phones, per the mobile sketch). */
+export default function GalaxyCanvas({ className = '', still = false }) {
   const wrapRef = useRef(null);
   const orbitRef = useRef(null);
   const canvasRef = useRef(null);
   const reduced = usePrefersReducedMotion();
+  const frozen = still || reduced;
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -41,7 +44,11 @@ export default function GalaxyCanvas({ className = '' }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
-    const ro = new ResizeObserver(resize);
+    // frozen mode has no RAF loop, so repaint the still frame on resize
+    const ro = new ResizeObserver(() => {
+      resize();
+      if (frozen) draw(0);
+    });
     ro.observe(wrap);
 
     // two loose spiral arms blended into a filled disc, denser at the core
@@ -80,7 +87,7 @@ export default function GalaxyCanvas({ className = '' }) {
       mx = (e.clientX / window.innerWidth) * 2 - 1;
       my = (e.clientY / window.innerHeight) * 2 - 1;
     };
-    if (!reduced) window.addEventListener('pointermove', onMove);
+    if (!frozen) window.addEventListener('pointermove', onMove);
 
     const draw = (time) => {
       ctx.clearRect(0, 0, W, H);
@@ -161,7 +168,7 @@ export default function GalaxyCanvas({ className = '' }) {
       raf = requestAnimationFrame(frame);
     };
 
-    if (reduced) {
+    if (frozen) {
       draw(0); // static galaxy
     } else {
       raf = requestAnimationFrame(frame);
@@ -172,7 +179,7 @@ export default function GalaxyCanvas({ className = '' }) {
       ro.disconnect();
       window.removeEventListener('pointermove', onMove);
     };
-  }, [reduced]);
+  }, [frozen]);
 
   return (
     <div ref={wrapRef} className={`pointer-events-none ${className}`} aria-hidden="true">
