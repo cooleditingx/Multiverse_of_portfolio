@@ -78,7 +78,27 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static first-paint shell, replaced wholesale when React mounts.
+           Two jobs: (1) the boot line + 00% bar paint before any JS, fixing
+           FCP; (2) the PORTFOLIO title behind the opaque boot layer is the
+           page's largest pre-interaction text, so LCP is recorded at first
+           paint instead of after the bundle + typing animation. It must stay
+           slightly larger than TitleCard's h1 (clamp 2.6rem/11vw/7.5rem) or a
+           later, bigger paint would re-set LCP. -->
+      <div aria-hidden="true">
+        <h1 style="position:fixed;inset:0;z-index:1;margin:0;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;background:#010103;color:#e8e6f0;font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:clamp(3.2rem,15vw,9.5rem);letter-spacing:-0.02em;line-height:1">PORTFOLIO</h1>
+        <div style="position:fixed;inset:0;z-index:2;background:#010103;display:flex;align-items:center;justify-content:center">
+          <div style="width:min(640px,82vw);font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:14px;line-height:1.5">
+            <p style="margin:0;min-height:1.5em;color:#4ce0d2;opacity:.9"><span style="color:#8b5cf6">&gt;</span> INITIALIZING MULTIVERSE OS v2.2 ...</p>
+            <p style="margin:1.5rem 0 0;color:#e8e6f0">LOADING ATOMS [□□□□□□□□□□□□□□] 00%</p>
+          </div>
+        </div>
+      </div>
+      <noscript>
+        <p style="position:fixed;left:0;right:0;bottom:2rem;z-index:3;margin:0;text-align:center;font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:13px;color:#9d99b3">This multiverse needs JavaScript to open.</p>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -187,6 +187,64 @@ function Bolt({ className, style }) {
   );
 }
 
+/* threaded letter beads (Cheeky Bones bead font) spilled on the mat around
+   the opening screen — her name's letters plus the heart and star charms */
+const OBSESSION_BEADS = [
+  { src: '/beads/HEART.webp', x: '10%',  y: '7%',  w: 'clamp(26px, 3vw, 52px)',   r: -14 },
+  { src: '/beads/D.webp',     x: '92%',  y: '32%', w: 'clamp(26px, 3vw, 52px)',   r: 12 },
+  { src: '/beads/S.webp',     x: '6.5%', y: '38%', w: 'clamp(26px, 3vw, 52px)',   r: 20 },
+  { src: '/beads/A.webp',     x: '4%',   y: '47%', w: 'clamp(28px, 3.2vw, 56px)', r: -10 },
+  { src: '/beads/U.webp',     x: '9%',   y: '55%', w: 'clamp(26px, 3vw, 52px)',   r: 28 },
+  { src: '/beads/N.webp',     x: '94%',  y: '58%', w: 'clamp(26px, 3vw, 52px)',   r: -22 },
+  { src: '/beads/STAR.webp',  x: '87%',  y: '82%', w: 'clamp(30px, 3.4vw, 60px)', r: 10 },
+];
+
+/* the opening screen's mat clutter, laid out to match the collage reference:
+   torn kraft corner + top-secret folder are the user's cutout images (baked
+   to webp in public/stickers; the torn strip is pre-rotated 180° so it reads
+   as a top-left corner piece); the rest are the same peelable stickers the
+   cube gate uses, plus the letter beads */
+function ObsessionDecor() {
+  return (
+    <div className="absolute inset-0 z-0" aria-hidden="true">
+      <img
+        src="/stickers/torn-paper.webp"
+        alt=""
+        width={418}
+        height={193}
+        decoding="async"
+        draggable={false}
+        className="absolute top-0 left-0 h-auto w-[clamp(190px,26vw,440px)]"
+        style={{ filter: 'drop-shadow(5px 7px 10px rgba(8, 38, 24, 0.35))' }}
+      />
+      <img
+        src="/stickers/topsecret-folder.webp"
+        alt=""
+        width={298}
+        height={401}
+        decoding="async"
+        draggable={false}
+        className="absolute h-auto"
+        style={{
+          right: 'max(-6vw, -85px)',
+          bottom: 'max(-9vw, -130px)',
+          width: 'clamp(220px, 23vw, 330px)',
+          transform: 'rotate(-45deg)',
+          filter: 'drop-shadow(-12px 14px 24px rgba(8, 38, 24, 0.4))',
+        }}
+      />
+      {/* the note sits in the keyed-out notch the reference's note left in the kraft */}
+      <Sticker src="/stickers/quote-note.webp" x="3.5%" y="clamp(88px, 8.2vw, 152px)" w="clamp(90px, 10vw, 190px)" r={-8} />
+      <Sticker src="/stickers/pin.webp" x="87%" y="5%" w="clamp(36px, 4.5vw, 100px)" r={16} />
+      <Sticker src="/stickers/burst.webp" x="80%" y="23%" w="clamp(50px, 6vw, 140px)" r={12} />
+      <Sticker src="/stickers/sparkles.webp" x="2.5%" y="72%" w="clamp(55px, 7vw, 150px)" r={-6} />
+      {OBSESSION_BEADS.map((b, i) => (
+        <Sticker key={i} {...b} />
+      ))}
+    </div>
+  );
+}
+
 /* confetti scattered around the 3D pop-up, tuned by eye against the
    reference: small triangles + dots that fly out from the crease on open */
 const POP_CONFETTI = [
@@ -307,23 +365,28 @@ function ObsessionDeck() {
   };
   const heading = (
     <>
-      <div className="relative mx-auto w-max max-w-full">
-        <span className="tape -top-2.5 left-6 -rotate-6 z-10" />
-        <span className="tape -top-2.5 right-6 rotate-6 z-10" />
+      <div className="relative mx-auto w-max max-w-full z-10">
+        <span className="tape tape-gingham -top-3 left-4 -rotate-12 z-10" style={{ '--gc': '#d94f3d' }} />
+        <span className="tape tape-gingham -bottom-3 right-4 rotate-12 z-10" style={{ '--gc': '#b06ccc' }} />
         <header className="grid-sheet px-10 md:px-16 py-6 md:py-8 text-center" style={{ '--r': '-0.5deg' }}>
           <h1 className="sr-only">Hobbies</h1>
           <Ransom text="HOBBIES" size="clamp(2rem, 5vw, 4rem)" className="justify-center" />
         </header>
       </div>
-      <div className="cut-line !my-8 md:!my-10" />
-      <Chapter no="01" title="current obsessions" />
+      {/* the pinned screen is full-bleed; the divider + chapter label keep
+          the page column's width so they land where they used to */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6">
+        <div className="cut-line !my-8 md:!my-10" />
+        <Chapter no="01" title="current obsessions" />
+      </div>
     </>
   );
   if (reduced || MOBILE) {
     return (
-      <div ref={ref}>
+      <div ref={ref} className="relative">
+        <ObsessionDecor />
         {heading}
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="relative z-10 flex flex-wrap justify-center gap-5">
           {OBSESSIONS.map((o) => <InstaxCard key={o.title} {...o} />)}
         </div>
       </div>
@@ -331,9 +394,12 @@ function ObsessionDeck() {
   }
   return (
     <div ref={ref} style={{ height: `${(n - 1) * 60 + 100}vh` }}>
-      <div ref={stickyRef} className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
+      {/* deck-bleed: the pinned screen spans the full viewport so the mat
+          clutter reaches the real screen edges; content still centers */}
+      <div ref={stickyRef} className="deck-bleed sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
+        <ObsessionDecor />
         {heading}
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="relative z-10 flex flex-wrap justify-center gap-5">
           {OBSESSIONS.map((o, i) =>
             i === 0 ? (
               <InstaxCard key={o.title} {...o} onFocus={() => focusCard(0)} />

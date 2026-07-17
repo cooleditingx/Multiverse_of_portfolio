@@ -868,6 +868,27 @@ button { cursor: pointer; font: inherit; }
   pointer-events: none;
 }
 
+/* the obsession deck's pinned screen escapes the 5xl column to full viewport
+   width; overflow-x: clip on .u-hobbies swallows the scrollbar-width
+   overshoot without breaking position: sticky */
+.deck-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+.u-hobbies { overflow-x: clip; }
+
+/* gingham washi tape — two crossed white stripe passes over a dyed base
+   read as a checked pattern; tint per use via --gc */
+.tape-gingham {
+  width: 96px;
+  height: 26px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0 7px, rgba(255, 255, 255, 0) 7px 14px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.42) 0 7px, rgba(255, 255, 255, 0) 7px 14px),
+    var(--gc, #d94f3d);
+  opacity: 0.93;
+}
+
 /* ripped-out paper plaque (title cards) */
 .torn-sheet {
   position: relative;

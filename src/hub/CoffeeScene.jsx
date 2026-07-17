@@ -12,6 +12,10 @@ import { usePrefersReducedMotion } from '../lib/hooks';
  */
 
 const MODEL_URL = '/coffee.glb';
+// self-hosted Draco decoder (public/draco/, copied from three's
+// examples/jsm/libs/draco/gltf) — drei's default is a gstatic.com CDN URL,
+// which the site's CSP blocks
+const DRACO_PATH = '/draco/';
 const MODEL_SIZE = 1.45; // world units, longest side after normalization
 
 // orbiting ice: orbit radii (rx/rz), height, speeds, phase, cube size
@@ -26,7 +30,7 @@ const ICE_CUBES = [
 
 /** coffee.glb, centered on its bounding box and scaled to MODEL_SIZE. */
 function CoffeeModel() {
-  const { scene } = useGLTF(MODEL_URL);
+  const { scene } = useGLTF(MODEL_URL, DRACO_PATH);
   const { scale, offset } = useMemo(() => {
     const box = new THREE.Box3().setFromObject(scene);
     const size = box.getSize(new THREE.Vector3());
@@ -127,4 +131,4 @@ export default function CoffeeScene() {
   );
 }
 
-useGLTF.preload(MODEL_URL);
+useGLTF.preload(MODEL_URL, DRACO_PATH);
