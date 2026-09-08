@@ -4,16 +4,15 @@ import { crtOn, click } from '../lib/sfx';
 import { unlockAudio } from '../lib/sfx';
 import { usePageTitle, useJsonLd } from '../lib/hooks';
 import { SITE_URL } from '../lib/site';
+import { desc } from 'framer-motion/client';
+import { stack } from 'three/tsl';
 
-/* [PLACEHOLDER: real experience/project content] */
 const EXPERIENCE = [
   { period: '2022 — NOW', role: 'Freelance Web Developer', detail: "I'm a CS student and full-stack developer working across React, JavaScript, Node.js, and SQL, with projects deployed on Vercel.  I'm focused on building complete, end-to-end products that are as thoughtful in design as they are solid in architecture." }
 ];
 
-/* per project, optionally add `website` (live site) and/or `github` (repo).
-   The WEBSITE / CODE buttons only render for links that are filled in —
-   leave empty ('') to hide. */
 const PROJECTS = [
+  { name: 'Dear Stranger', subtitle: 'Personal Project', desc: 'An app where users can write and share digital postcards with others', stack: 'Ejs, Psql, Railway', github: 'https://github.com/cooleditingx/Dear-Stranger', website: 'https://dear-stranger-production.up.railway.app/'},
   { name: 'Metier Artifice', subtitle: 'Client project, live e-commerce website', desc: 'Designed and built the full website for Metier Artifice, a resin art small business, including hosting and deployment. The site is a live storefront covering jewellery, wall clocks, trays, plaques, and a flower-preservation service, complete with product collections, an about section, and customer reviews. Includes easy to edit CMS collections for adding products', stack: 'Framer - SEO - Hosting', website: 'www.metierartifice.com', github: '' },
   { name: 'The Scent Chemist', subtitle: 'Client brand redesign', desc: "Brand redesign for Scent Chemist, a small independent perfume brand. Refreshed the site's visual identity and web presence for a client, showcasing product line and brand story.", stack: 'Vite · React . TDD', website: 'https://tsc-eight.vercel.app/', github: 'https://github.com/cooleditingx/TSC' },
   { name: 'Library of Alexandria', subtitle: 'Electron desktop app', desc: 'A desktop app built with Electron for tracking books read. Users can add books with title, author, and page count, then remove them from their shelf as desired. Designed with a custom hand-illustrated bookshelf/library interface.', stack: 'Electron - Javascript - HTML - CSS', website: '', github: '' },
